@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/statistics";
 import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data";
 import React, { PureComponent, useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  Brush,
 } from 'recharts';
 
 export function meta({ }: Route.MetaArgs) {
@@ -27,17 +28,46 @@ export function meta({ }: Route.MetaArgs) {
 export default function Statistics() {
   const [gradeDistributionData, setGradeDistributionData] = useState([]);
   const [areaAscentsData, setAreaAscentsData] = useState([]);
-  const [monthAscentsData, setMonthAscentsData] = useState([]);
-
+  const [monthlyAscentsData, setMonthlyAscentsData] = useState([]);
+  const [yearlyAscentsData, setYearlyAscentsData] = useState([]);
+  const [gradeAscentsData, setGradeAscentsData] = useState([]);
 
   useEffect(() => {
     async function load() {
       const gradeDistribution = await FetchData("http://127.0.0.1:8000/stats/grades/distribution");
-      const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-repeats");
-      const monthAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-month");
       setGradeDistributionData(gradeDistribution);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const gradeAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-grade");
+      setGradeAscentsData(gradeAscents);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-repeats");
       setAreaAscentsData(areaAscents);
-      setMonthAscentsData(monthAscents);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const monthAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-month");
+      setMonthlyAscentsData(monthAscents);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const yearAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-year");
+      setYearlyAscentsData(yearAscents);
     }
     load();
   }, []);
@@ -47,7 +77,8 @@ export default function Statistics() {
       <div>
         <h1 className="text-xl font-bold mb-8">Grade distribution</h1>
         <div className="justify-items-center">
-          <GradeDistributionLineChart data={gradeDistributionData} />
+          <CustomLineChart data={gradeDistributionData} dataKeyX="grade.value" dataKeyY="boulders"
+            tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
           <div className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
             <h2 className="font-bold">Comments</h2>
             <ul className="list-disc pl-5">
@@ -66,31 +97,44 @@ export default function Statistics() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="mt-16">
+        <h1 className="text-xl font-bold mb-8">Number of ascents per grade</h1>
+        <CustomLineChart data={gradeAscentsData} dataKeyX="grade.value" dataKeyY="ascents"
+          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }}/>
+        <p className="w-full bg-slate-300 p-4 mt-2 mb-8 rounded-xl">Analysis : people don't climb in "+" grades and we can notice the tendency of "I don't log under 7a"</p>
+      </div>
+      <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Top 10 areas with the most registered ascents</h1>
-        <MostAscentsAreaLineChart data={areaAscentsData} />
+        <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY="ascents"
+          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
           Non surprisingly, most popular areas count the most ascents. Isatis is still far in front of every others though.
         </p>
       </div>
-      <div>
+      <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Percentage of ascents per month</h1>
-        <div className="flex justify-center">
-          <MonthButton content="-" monthData={monthAscentsData} setMonthData={setMonthAscentsData} />
-          <MonthButton content="+" monthData={monthAscentsData} setMonthData={setMonthAscentsData} />
+        <div className="flex justify-center mb-2">
+          <MonthButton content="&larr;" move="left" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
+          <MonthButton content="&rarr;" move="right" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
         </div>
-        <AscentPerMonthLineChart data={monthAscentsData} />
-        <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Test
-        </p>
+        <CustomLineChart data={monthlyAscentsData} dataKeyX="month" dataKeyY="percentage"
+          margin={{ left: 30, right: 30, top: 10, bottom: 30 }} animation={false} />
+        <p className="w-full bg-slate-300 p-4 mb-8 rounded-xl">Analysis</p>
+      </div>
+      <div className="mt-16">
+        <h1 className="text-xl font-bold mb-8">Number of ascents per year</h1>
+        <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY="ascents"
+          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
+        <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Analysis</p>
       </div>
     </MainLayout>
   )
 }
 
-function MonthButton({ content, monthData, setMonthData }){
-  function handleClick(){
+function MonthButton({ content, move, monthData, setMonthData }) {
+  function handleClick() {
     let newData
-    if ( content === "+" ) {
+    if (move === "right") {
       const last = monthData[monthData.length - 1]
       newData = [last, ...monthData.slice(0, -1)]
     }
@@ -101,93 +145,24 @@ function MonthButton({ content, monthData, setMonthData }){
     setMonthData(newData)
   }
   return (
-    <button className="bg-slate-300 px-8 py-2 mx-8 rounded-3xl hover:scale-110 active:bg-slate-400 transition" onClick={handleClick}>{ content }</button>
+    <button className="bg-slate-300 text-2xl px-8 py-1 mx-8 rounded-3xl hover:scale-110 active:bg-slate-400 transition" onClick={handleClick}>{content}</button>
   )
 }
 
-function GradeDistributionLineChart({ data }) {
+export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 0, animation = true }) {
   return (
     <LineChart
       width={1000}
       height={400}
       data={data}
-      margin={{
-        top: 10,
-        right: 40,
-        left: 40,
-        bottom: 50,
-      }}
-
+      margin={margin}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="grade.value" angle={-45} textAnchor="end" interval={0} padding="gap" tick={{ fontSize: 14 }} tickMargin={5} />
-      <YAxis />
+      <XAxis dataKey={dataKeyX} angle={tickAngle} textAnchor="end" interval={0} padding="gap" tick={{ fontSize: 14 }} tickMargin={5} />
+    <YAxis />
       <Tooltip />
       <ReferenceLine y={0} stroke="#000" />
-      {/* <Brush dataKey="grade.value" height={20} stroke="#8884d8"/> */}
-      <Line dataKey="boulders" type="monotone" stroke="#8884d8" activeDot={{ r: 8 }}/>
-    </LineChart>
-  );
-}
-
-function MostAscentsAreaLineChart({ data }) {
-  return (
-    <LineChart
-      width={1000}
-      height={400}
-      data={data}
-      margin={{
-        top: 10,
-        right: 40,
-        left: 40,
-        bottom: 120,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="area.name" angle={-45} textAnchor="end" interval={0} padding="gap" tick={{ fontSize: 14 }} tickMargin={5} />
-      <YAxis />
-      <Tooltip />
-      <ReferenceLine y={0} stroke="#000" />
-      {/* <Brush dataKey="grade.value" height={20} stroke="#8884d8"/> */}
-      <Line dataKey="ascents" type="monotone" stroke="#8884d8" activeDot={{ r: 8 }} />
-    </LineChart>
-  );
-}
-function AscentPerMonthLineChart({ data }) {
-  return (
-    // <PieChart width={400} height={400}>
-    //   <Pie
-    //     dataKey="percentage"
-    //     nameKey="month"
-    //     cx="50%"
-    //     cy="50%"
-    //     isAnimationActive={false}
-    //     data={ data }
-    //     innerRadius={30}
-    //     outerRadius={120}
-    //     fill="#8884d8"
-    //     label
-    //   />
-    //   <Tooltip />
-    // </PieChart>
-    <LineChart
-      width={1000}
-      height={400}
-      data={data}
-      margin={{
-        top: 10,
-        right: 40,
-        left: 40,
-        bottom: 20,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="month" tick={{ fontSize: 14 }} tickMargin={8} />
-      <YAxis />
-      <Tooltip />
-      <ReferenceLine y={0} stroke="#000" />
-      {/* <Brush dataKey="grade.value" height={20} stroke="#8884d8"/> */}
-      <Line dataKey="percentage" type="monotone" stroke="#8884d8" activeDot={{ r: 8 }} isAnimationActive={false} />
+      <Line dataKey={dataKeyY} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={animation} />
     </LineChart>
   );
 }

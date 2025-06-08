@@ -2,7 +2,7 @@ import { NavBar } from "./navBar";
 
 export function MainLayout({ children }) {
   return (
-    <main className="">
+    <main className="mb-16">
       <header className="">
         <NavBar />
       </header>

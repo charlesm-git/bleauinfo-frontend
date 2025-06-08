@@ -4,10 +4,10 @@ export function StarRating({ rating }) {
     return (
         <div className="relative inline-block w-max">
             {/* Background: empty stars */}
-            <div className="text-gray-300 text-xl">★★★★★</div>
+            <div title={`${rating} / 5`} className="text-gray-300 text-xl">★★★★★</div>
 
             {/* Foreground: filled stars clipped to rating */}
-            <div
+            <div title={`${rating} / 5`}
                 className="absolute top-0 left-0 overflow-hidden text-slate-700 text-xl"
                 style={{ width: `${percentage}%` }}
             >
@@ -15,4 +15,4 @@ export function StarRating({ rating }) {
             </div>
         </div>
     );
-  }
+}

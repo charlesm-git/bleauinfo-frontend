@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/best-rated";
 import { MainLayout } from "../ui/mainLayout";
 import { StarRating } from "../ui/starRating";
 import { FetchData } from "~/ui/data";
@@ -25,9 +25,11 @@ export default function BestRated() {
 
   return (
     <MainLayout>
-      <p className="p-4 rounded-md bg-slate-200">This page gather the <strong>best rated boulders.</strong><br />
-        All boulders that have <strong>more than 10 publics ratings and a rating above or equal to 4.7/5 are displayed</strong> <br />
-        The last column shows the number of public rating registered</p>
+      <div className="p-4 rounded-md bg-slate-200">
+        <p>This page gather the <strong>best rated boulders.</strong><br />
+          All boulders that have <strong>more than 10 publics ratings and a rating above or equal to 4.7/5 are displayed</strong></p>
+        <p className="italic">The last column shows the number of public rating registered</p>
+      </div>
       {grades.map((grade) => <GradeBlock key={grade} grade={grade} />)}
     </MainLayout>
   )
@@ -57,7 +59,7 @@ function GradeBlock({ grade }) {
 function BoulderItem({ boulder }) {
   return (
     <div className="grid grid-cols-12 gap-3">
-      <a href={boulder.url} className="col-span-5">{boulder.name}</a>
+      <a href={boulder.url} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
       <p className="col-span-4">{boulder.area.name} {boulder.area.status && <strong>({boulder.area.status})</strong>}</p>
       <div className="col-span-2">
         <StarRating rating={boulder.rating} />

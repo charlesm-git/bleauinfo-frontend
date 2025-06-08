@@ -2,8 +2,9 @@ export function NavBar() {
     const items = [
         { title: "Home", url: "/" },
         { title: "Best Rated", url: "/best-rated" },
-        { title: "Most Repeats", url: "/most-repeats" },
-        { title: "Statistics", url: "/statistics"}
+        { title: "Most Repeats", url: "/most-ascents" },
+        { title: "Statistics", url: "/statistics"},
+        { title: "Areas", url: "/areas"},
     ]
     return (
         <nav className="flex justify-center">

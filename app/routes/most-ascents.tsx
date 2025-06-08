@@ -1,4 +1,4 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/most-ascents";
 import { MainLayout } from "../ui/mainLayout";
 import { StarRating } from "~/ui/starRating";
 import { FetchData } from "~/ui/data";
@@ -25,8 +25,10 @@ export default function MostRepeats() {
 
   return (
     <MainLayout>
-      <p className="p-4 rounded-md bg-slate-200">This page gather the <strong>top 10 most repeated boulders per grade.</strong><br />
-        Last column shows the number of public repetitions registered on Bleau.Info</p>
+      <div className="p-4 rounded-md bg-slate-200">
+        <p className="">This page gather the <strong>top 10 most repeated boulders per grade.</strong></p>
+        <p className="italic">The last column shows the number of public repetitions registered on Bleau.Info</p>
+      </div>
       {grades.map((grade) => <GradeBlock key={grade} grade={grade} />)}
     </MainLayout>
   )
@@ -37,7 +39,7 @@ function GradeBlock({ grade }) {
 
   useEffect(() => {
     async function load() {
-      const boulders = await FetchData(`http://127.0.0.1:8000/stats/boulders/most-repeats/${grade}`);
+      const boulders = await FetchData(`http://127.0.0.1:8000/stats/boulders/most-ascents/${grade}`);
       setData(boulders);
     }
     load();
@@ -52,16 +54,16 @@ function GradeBlock({ grade }) {
   );
 }
 
-function BoulderItem({ item }) {
+export function BoulderItem({ item }) {
   const boulder = item.boulder
   return (
     <div className="grid grid-cols-12 gap-3">
-      <a href={boulder.url} className="col-span-5">{boulder.name}</a>
+      <a href={boulder.url} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
       <p className="col-span-4">{item.area.name} {item.area.status && <strong>({item.area.status})</strong>}</p>
       <div className="col-span-2">
         <StarRating rating={boulder.rating} />
       </div>
-      <div className="text-center">{item.number_of_repetition}</div>
+      <div className="text-center">{item.ascents}</div>
     </div>
   )
 }
