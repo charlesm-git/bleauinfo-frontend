@@ -25,7 +25,7 @@ export default function AreasDetail({ loaderData }: Route.ComponentProps) {
         <h1 className="text-xl font-bold">{data.area.name} {data.area.status && <span className="font-bold">({data.area.status})</span>}</h1>
         <a href={`https://www.bleau.info${data.area.url}`} className="text-sky-600 hover:underline active:text-sky-800">Go on Bleau.Info</a>
       </div>
-      {data.number_of_boulders !== 0 ? <AreaStatistics data={data} /> : 
+      {data.number_of_boulders > 0 ? <AreaStatistics data={data} /> : 
       <div className="bg-orange-400 p-4 rounded-xl">No statistics to display in this area. Go on Bleau.info for more information.</div>}
     </MainLayout>
   )
@@ -60,7 +60,7 @@ function AreaStatistics({ data }) {
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Best Rated Boulders (rating above 4 and more than 5 ascents)</h2>
         {data.best_rated_boulders.length > 0 ?
-          data.best_rated_boulders.map((item) => <BoulderItem key={item.id} item={item} />) :
+          data.best_rated_boulders.map((item) => <BoulderItem key={item.boulder.id} item={item} />) :
           <p className="bg-orange-400 p-4 rounded-xl">No Boulder with these criterion</p>
         }
       </div>

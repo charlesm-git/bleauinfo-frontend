@@ -50,7 +50,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-repeats");
+      const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-ascents");
       setAreaAscentsData(areaAscents);
     }
     load();
@@ -99,32 +99,40 @@ export default function Statistics() {
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Number of ascents per grade</h1>
-        <CustomLineChart data={gradeAscentsData} dataKeyX="grade.value" dataKeyY="ascents"
-          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }}/>
+        <div className="justify-items-center">
+          <CustomLineChart data={gradeAscentsData} dataKeyX="grade.value" dataKeyY="ascents"
+            tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
+        </div>
         <p className="w-full bg-slate-300 p-4 mt-2 mb-8 rounded-xl">Analysis : people don't climb in "+" grades and we can notice the tendency of "I don't log under 7a"</p>
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Top 10 areas with the most registered ascents</h1>
-        <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY="ascents"
-          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
+        <div className="justify-items-center">
+          <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY="ascents"
+            tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
+        </div>
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
-          Non surprisingly, most popular areas count the most ascents. Isatis is still far in front of every others though.
+          Non surprisingly, most popular areas count the most ascents. Isatis still being far in front.
         </p>
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Percentage of ascents per month</h1>
-        <div className="flex justify-center mb-2">
-          <MonthButton content="&larr;" move="left" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
-          <MonthButton content="&rarr;" move="right" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
+        <div className="justify-items-center mb-2">
+          <div className="flex">
+            <MonthButton content="&larr;" move="left" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
+            <MonthButton content="&rarr;" move="right" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
+          </div>
+          <CustomLineChart data={monthlyAscentsData} dataKeyX="month" dataKeyY="percentage"
+            margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
         </div>
-        <CustomLineChart data={monthlyAscentsData} dataKeyX="month" dataKeyY="percentage"
-          margin={{ left: 30, right: 30, top: 10, bottom: 30 }} animation={false} />
         <p className="w-full bg-slate-300 p-4 mb-8 rounded-xl">Analysis</p>
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Number of ascents per year</h1>
-        <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY="ascents"
-          tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
+        <div className="justify-items-center">
+          <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY="ascents"
+            tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
+        </div>
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Analysis</p>
       </div>
     </MainLayout>
@@ -149,20 +157,20 @@ function MonthButton({ content, move, monthData, setMonthData }) {
   )
 }
 
-export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 0, animation = true }) {
+export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 0}) {
   return (
     <LineChart
-      width={1000}
+      width={800}
       height={400}
       data={data}
       margin={margin}
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={dataKeyX} angle={tickAngle} textAnchor="end" interval={0} padding="gap" tick={{ fontSize: 14 }} tickMargin={5} />
-    <YAxis />
+      <YAxis />
       <Tooltip />
       <ReferenceLine y={0} stroke="#000" />
-      <Line dataKey={dataKeyY} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={animation} />
+      <Line dataKey={dataKeyY} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={false} />
     </LineChart>
   );
 }

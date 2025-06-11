@@ -2,13 +2,15 @@ import { NavBar } from "./navBar";
 
 export function MainLayout({ children }) {
   return (
-    <main className="mb-16">
-      <header className="">
-        <NavBar />
+    <body className="mb-16">
+      <header className="bg-slate-700 mb-8">
+        <div className="xl:max-w-4xl lg:max-w-2xl md:max-w-lg max-w-sm mx-auto">
+          <NavBar />
+        </div>
       </header>
-      <main className="max-w-5xl mx-auto">
-        { children }
+      <main className="xl:max-w-4xl lg:max-w-2xl md:max-w-lg max-w-sm mx-auto">
+        {children}
       </main>
-    </main>
+    </body>
   );
 }

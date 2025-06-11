@@ -59,7 +59,7 @@ export function BoulderItem({ item }) {
   return (
     <div className="grid grid-cols-12 gap-3">
       <a href={boulder.url} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
-      <p className="col-span-4">{item.area.name} {item.area.status && <strong>({item.area.status})</strong>}</p>
+      <p className="col-span-4">{boulder.area.name} {boulder.area.status && <strong>({boulder.area.status})</strong>}</p>
       <div className="col-span-2">
         <StarRating rating={boulder.rating} />
       </div>
