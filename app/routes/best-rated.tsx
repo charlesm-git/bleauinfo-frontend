@@ -50,8 +50,10 @@ function GradeBlock({ grade }) {
 
   return (
     <div className="my-4">
-      <h1 className="text-xl font-bold">{grade}</h1>
-      {data.map((boulder) => <BoulderItem key={boulder.id} boulder={boulder} />)}
+      <h1 className="text-xl font-bold mb-2">{grade}</h1>
+      <div className="mx-3">
+        {data.map((boulder) => <BoulderItem key={boulder.id} boulder={boulder} />)}
+      </div>
     </div>
   );
 }
@@ -59,8 +61,8 @@ function GradeBlock({ grade }) {
 function BoulderItem({ boulder }) {
   return (
     <div className="grid grid-cols-12 gap-3">
-      <a href={boulder.url} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
-      <p className="col-span-4">{boulder.area.name} {boulder.area.status && <strong>({boulder.area.status})</strong>}</p>
+      <a href={`boulders/${boulder.id}`} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
+      <a href={`areas/${boulder.area.id}`} className="col-span-4">{boulder.area.name} {boulder.area.status && <strong>({boulder.area.status})</strong>}</a>
       <div className="col-span-2">
         <StarRating rating={boulder.rating} />
       </div>

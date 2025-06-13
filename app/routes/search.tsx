@@ -36,7 +36,11 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 }
 
 function BoulderItem({ boulder }) {
-  return <div>{boulder.name}</div>
+  return (
+    <div>
+      <a href={`/boulders/${boulder.id}`}>{boulder.name}</a>
+    </div>
+  )
 }
 
 function AreaItem({ area }) {

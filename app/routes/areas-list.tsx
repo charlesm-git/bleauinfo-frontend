@@ -36,7 +36,7 @@ export default function AreasList() {
 function RegionColumn({ region }) {
   return (
     <div className="grid grid-rows h-min">
-      <h2 className="font-bold">{region.name}</h2>
+      <h2 className="font-bold mb-1">{region.name}</h2>
       {region.areas.map((area) => <a key={area.id} href={`areas/${area.id}`} className="text-sky-600 hover:underline active:text-sky-800">{ area.name }</a>)}
     </div >
   )

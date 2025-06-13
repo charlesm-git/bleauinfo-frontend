@@ -48,8 +48,10 @@ function GradeBlock({ grade }) {
 
   return (
     <div className="my-4">
-      <h1 className="text-xl font-bold">{grade}</h1>
-      {data.map((item) => <BoulderItem key={item.boulder.id} item={item} />)}
+      <h1 className="text-xl font-bold mb-2">{grade}</h1>
+      <div className="mx-3">
+        {data.map((item) => <BoulderItem key={item.boulder.id} item={item} />)}
+      </div>
     </div>
   );
 }

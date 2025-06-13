@@ -1,22 +1,9 @@
 import type { Route } from "./+types/statistics";
 import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data";
-import React, { PureComponent, useEffect, useState } from 'react';
-import {
-  BarChart,
-  LineChart,
-  PieChart,
-  Bar,
-  Line,
-  Pie,
-  ReferenceLine,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Brush,
-} from 'recharts';
+import { CustomLineChart } from "~/ui/chart";
+import { useEffect, useState } from 'react';
+
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -42,7 +29,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-grade");
+      const gradeAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-grade");
       setGradeAscentsData(gradeAscents);
     }
     load();
@@ -58,7 +45,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const monthAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-month");
+      const monthAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-month");
       setMonthlyAscentsData(monthAscents);
     }
     load();
@@ -66,7 +53,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const yearAscents = await FetchData("http://127.0.0.1:8000/stats/repeats/per-year");
+      const yearAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-year");
       setYearlyAscentsData(yearAscents);
     }
     load();
@@ -155,22 +142,4 @@ function MonthButton({ content, move, monthData, setMonthData }) {
   return (
     <button className="bg-slate-300 text-2xl px-8 py-1 mx-8 rounded-3xl hover:scale-110 active:bg-slate-400 transition" onClick={handleClick}>{content}</button>
   )
-}
-
-export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 0}) {
-  return (
-    <LineChart
-      width={800}
-      height={400}
-      data={data}
-      margin={margin}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={dataKeyX} angle={tickAngle} textAnchor="end" interval={0} padding="gap" tick={{ fontSize: 14 }} tickMargin={5} />
-      <YAxis />
-      <Tooltip />
-      <ReferenceLine y={0} stroke="#000" />
-      <Line dataKey={dataKeyY} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={false} />
-    </LineChart>
-  );
 }
