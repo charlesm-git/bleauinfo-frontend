@@ -1,8 +1,6 @@
 import type { Route } from "./+types/most-ascents";
 import { MainLayout } from "../ui/mainLayout";
-import { StarRating } from "~/ui/starRating";
-import { FetchData } from "~/ui/data";
-import { useEffect, useState } from "react";
+import { GradeBlock } from "~/ui/list-grade-block";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -11,7 +9,7 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-export default function MostRepeats() {
+export default function MostAscents() {
   const grades = [
     "9a", "8c+", "8c", "8b+", "8b", "8a+", "8a",
     "7c+", "7c", "7b+", "7b", "7a+", "7a",
@@ -27,45 +25,9 @@ export default function MostRepeats() {
     <MainLayout>
       <div className="p-4 rounded-md bg-slate-200">
         <p className="">This page gather the <strong>top 10 most repeated boulders per grade.</strong></p>
-        <p className="italic">The last column shows the number of public repetitions registered on Bleau.Info</p>
+        <p className="italic">The last column shows the number of public ascents logged</p>
       </div>
-      {grades.map((grade) => <GradeBlock key={grade} grade={grade} />)}
+      {grades.map((grade) => <GradeBlock key={grade} grade={grade} type="most-ascents" />)}
     </MainLayout>
-  )
-
-}
-function GradeBlock({ grade }) {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    async function load() {
-      const boulders = await FetchData(`http://127.0.0.1:8000/stats/boulders/most-ascents/${grade}`);
-      setData(boulders);
-    }
-    load();
-  }, []);
-  if (!data.length) return null;
-
-  return (
-    <div className="my-4">
-      <h1 className="text-xl font-bold mb-2">{grade}</h1>
-      <div className="mx-3">
-        {data.map((item) => <BoulderItem key={item.boulder.id} item={item} />)}
-      </div>
-    </div>
-  );
-}
-
-export function BoulderItem({ item }) {
-  const boulder = item.boulder
-  return (
-    <div className="grid grid-cols-12 gap-3">
-      <a href={boulder.url} className="col-span-5 text-sky-600 underline hover:text-sky-800">{boulder.name}</a>
-      <p className="col-span-4">{boulder.area.name} {boulder.area.status && <strong>({boulder.area.status})</strong>}</p>
-      <div className="col-span-2">
-        <StarRating rating={boulder.rating} />
-      </div>
-      <div className="text-center">{item.ascents}</div>
-    </div>
   )
 }

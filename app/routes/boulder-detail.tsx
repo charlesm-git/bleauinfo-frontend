@@ -1,8 +1,9 @@
 import type { Route } from "./+types/areas-detail";
 import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data";
-import { CustomLineChart } from "~/ui/chart";
+import { SlidingLineChart } from "~/ui/chart";
 import { Box } from "~/ui/box";
+import { useState } from "react";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -18,7 +19,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
   const boulder = loaderData
-  console.log(boulder)
+  const [graphData, setGraphData] = useState(boulder.aggregated_ascents)
+
   return (
     <MainLayout>
       <div className="flex flex-row items-end gap-4">
@@ -36,8 +38,8 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
         <Box title="Rating" content={boulder.rating} />
       </div>
       <h2 className="text-xl font-semibold mb-4">Pourcentage of ascents per month</h2>
-      <CustomLineChart data={boulder.aggregated_ascents} dataKeyX="month" tickAngle={-45}
-        dataKeyY="percentage" margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
+      <SlidingLineChart data={graphData} setData={setGraphData} dataKeyX="month" dataKeyY1="boulder" dataKeyY2="general"
+        tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
     </MainLayout >
   )
 }

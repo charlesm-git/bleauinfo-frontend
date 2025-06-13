@@ -1,20 +1,20 @@
 import {
-  BarChart,
-  LineChart,
-  PieChart,
-  Bar,
-  Line,
-  Pie,
-  ReferenceLine,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Brush,
+    BarChart,
+    LineChart,
+    PieChart,
+    Bar,
+    Line,
+    Pie,
+    ReferenceLine,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    Brush,
 } from 'recharts';
 
-export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 0 }) {
+export function CustomLineChart({ data, margin, dataKeyX, dataKeyY1, dataKeyY2 = null, tickAngle = 0 }) {
     return (
         <LineChart
             width={1000}
@@ -27,7 +27,40 @@ export function CustomLineChart({ data, dataKeyX, dataKeyY, margin, tickAngle = 
             <YAxis />
             <Tooltip />
             <ReferenceLine y={0} stroke="#000" />
-            <Line dataKey={dataKeyY} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={false} />
+            <Line dataKey={dataKeyY1} type="monotone" stroke="#45556c" activeDot={{ r: 8 }} isAnimationActive={false} />
+            {dataKeyY2 ? <Line dataKey={dataKeyY2} type="monotone" stroke="#ff8904" activeDot={{ r: 8 }} isAnimationActive={false} /> : null }
         </LineChart>
     );
+}
+
+export function SlidingLineChart({ data, setData, margin, dataKeyX, dataKeyY1, dataKeyY2 = null, tickAngle = 0 }) {
+    return (
+        <div className="justify-items-center mb-2">
+            <div className="flex mb-4">
+                <SlideButton content="&larr;" move="left" data={data} setData={setData} />
+                <SlideButton content="&rarr;" move="right" data={data} setData={setData} />
+            </div>
+            <CustomLineChart data={data} dataKeyX={dataKeyX} dataKeyY1={dataKeyY1} dataKeyY2={dataKeyY2}
+                margin={margin} tickAngle={tickAngle}/>
+        </div>
+    )
+}
+
+function SlideButton({ content, move, data, setData }) {
+    function handleClick() {
+        let newData
+        if (move === "right") {
+            const last = data[data.length - 1]
+            newData = [last, ...data.slice(0, -1)]
+        }
+        else {
+            const [first, ...rest] = data
+            newData = [...rest, first]
+        }
+        setData(newData)
+    }
+    return (
+        <button className="bg-slate-300 text-2xl px-8 py-1 mx-8 rounded-3xl 
+        hover:scale-110 active:bg-slate-400 transition" onClick={handleClick}>{content}</button>
+    )
   }

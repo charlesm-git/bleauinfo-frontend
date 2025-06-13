@@ -1,7 +1,7 @@
 import type { Route } from "./+types/statistics";
 import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data";
-import { CustomLineChart } from "~/ui/chart";
+import { CustomLineChart, SlidingLineChart } from "~/ui/chart";
 import { useEffect, useState } from 'react';
 
 
@@ -64,7 +64,7 @@ export default function Statistics() {
       <div>
         <h1 className="text-xl font-bold mb-8">Grade distribution</h1>
         <div className="justify-items-center">
-          <CustomLineChart data={gradeDistributionData} dataKeyX="grade.value" dataKeyY="boulders"
+          <CustomLineChart data={gradeDistributionData} dataKeyX="grade.value" dataKeyY1="boulders"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
           <div className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
             <h2 className="font-bold">Comments</h2>
@@ -87,7 +87,7 @@ export default function Statistics() {
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Number of ascents per grade</h1>
         <div className="justify-items-center">
-          <CustomLineChart data={gradeAscentsData} dataKeyX="grade.value" dataKeyY="ascents"
+          <CustomLineChart data={gradeAscentsData} dataKeyX="grade.value" dataKeyY1="ascents"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
         </div>
         <p className="w-full bg-slate-300 p-4 mt-2 mb-8 rounded-xl">Analysis : people don't climb in "+" grades and we can notice the tendency of "I don't log under 7a"</p>
@@ -95,7 +95,7 @@ export default function Statistics() {
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Top 10 areas with the most registered ascents</h1>
         <div className="justify-items-center">
-          <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY="ascents"
+          <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY1="ascents"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
         </div>
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
@@ -104,20 +104,14 @@ export default function Statistics() {
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Percentage of ascents per month</h1>
-        <div className="justify-items-center mb-2">
-          <div className="flex">
-            <MonthButton content="&larr;" move="left" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
-            <MonthButton content="&rarr;" move="right" monthData={monthlyAscentsData} setMonthData={setMonthlyAscentsData} />
-          </div>
-          <CustomLineChart data={monthlyAscentsData} dataKeyX="month" dataKeyY="percentage"
-            margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
-        </div>
+        <SlidingLineChart data={monthlyAscentsData} setData={setMonthlyAscentsData} dataKeyX="month" dataKeyY1="percentage"
+          margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
         <p className="w-full bg-slate-300 p-4 mb-8 rounded-xl">Analysis</p>
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Number of ascents per year</h1>
         <div className="justify-items-center">
-          <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY="ascents"
+          <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY1="ascents"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
         </div>
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Analysis</p>

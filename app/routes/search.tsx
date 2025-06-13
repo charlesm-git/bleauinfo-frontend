@@ -1,6 +1,5 @@
 import type { Route } from "./+types/search.tsx";
 import { MainLayout } from "../ui/mainLayout";
-import { useEffect, useState } from "react";
 import { FetchData } from "~/ui/data.js";
 
 export function meta({ }: Route.MetaArgs) {
@@ -37,8 +36,13 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
 function BoulderItem({ boulder }) {
   return (
-    <div>
-      <a href={`/boulders/${boulder.id}`}>{boulder.name}</a>
+    <div className="flex flex-row gap-4">
+      <a href={`/boulders/${boulder.id}`} className="text-slate-700 text-medium">{boulder.name}</a>
+      <div className="grade">
+        {boulder.grade.value}
+        {boulder.slash_grade ? <span className="italic text-slate-400"> {boulder.slash_grade.value}</span> : null}
+      </div>
+      <a href={`/areas/${boulder.area.id}`}>{boulder.area.name}</a>
     </div>
   )
 }

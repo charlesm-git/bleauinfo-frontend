@@ -1,9 +1,9 @@
 import type { Route } from "./+types/areas-detail";
 import { MainLayout } from "../ui/mainLayout";
-import { StarRating } from "../ui/starRating";
 import { Box } from "~/ui/box";
 import { FetchData } from "~/ui/data";
 import { CustomLineChart } from "~/ui/chart";
+import { BoulderGradeItem } from "~/ui/list-boulder-item";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -48,29 +48,15 @@ function AreaStatistics({ data }) {
       </div>
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Top 10 boulders with most ascents</h2>
-        {data.most_climbed_boulders.map((item) => <BoulderItem key={item.boulder.id} item={item} />)}
+        {data.most_climbed_boulders.map((item) => <BoulderGradeItem key={item.boulder.id} item={item} />)}
       </div>
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Best Rated Boulders (rating above 4 and more than 5 ascents)</h2>
         {data.best_rated_boulders.length > 0 ?
-          data.best_rated_boulders.map((item) => <BoulderItem key={item.boulder.id} item={item} />) :
+          data.best_rated_boulders.map((item) => <BoulderGradeItem key={item.boulder.id} item={item} />) :
           <p className="bg-orange-400 p-4 rounded-xl">No Boulder with these criterion</p>
         }
       </div>
     </>
-  )
-}
-
-function BoulderItem({ item }) {
-  const boulder = item.boulder
-  return (
-    <div className="grid grid-cols-12 gap-3">
-      <a href={boulder.url} className="col-span-5">{boulder.name}</a>
-      <p className="col-span-4">{boulder.grade.value} {boulder.slash_grade && <span className="italic text-neutral-400">/ {boulder.slash_grade.value}</span>}</p>
-      <div className="col-span-2">
-        <StarRating rating={boulder.rating} />
-      </div>
-      <div className="text-center">{item.ascents}</div>
-    </div>
   )
 }
