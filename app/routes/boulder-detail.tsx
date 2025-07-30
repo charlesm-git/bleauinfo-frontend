@@ -4,6 +4,8 @@ import { FetchData } from "~/ui/data";
 import { SlidingLineChart } from "~/ui/chart";
 import { Box } from "~/ui/box";
 import { useState } from "react";
+import config from "~/config";
+
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -13,7 +15,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let data = await FetchData(`http://127.0.0.1:8000/boulders/${params.boulderId}`);
+  let data = await FetchData(`${config.baseUrl}/boulders/${params.boulderId}`);
   return data;
 }
 

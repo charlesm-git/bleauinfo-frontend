@@ -3,6 +3,7 @@ import { MainLayout } from "../ui/mainLayout";
 import { StarRating } from "../ui/starRating";
 import { FetchData } from "~/ui/data";
 import { useEffect, useState } from "react";
+import config from "~/config"
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -16,7 +17,7 @@ export default function AreasList() {
 
   useEffect(() => {
     async function load() {
-      const regionsData = await FetchData('http://127.0.0.1:8000/regions/');
+      const regionsData = await FetchData(`${config.baseUrl}/regions/`);
       SetRegions(regionsData);
     }
     load();

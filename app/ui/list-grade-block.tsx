@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { FetchData } from "./data";
 import { BoulderAreaItem } from "./list-boulder-item";
+import config from "~/config";
+
 
 export function GradeBlock({ grade, type }) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
         async function load() {
-            const boulders = await FetchData(`http://127.0.0.1:8000/stats/boulders/${type}/${grade}`);
+            const boulders = await FetchData(`${config.baseUrl}/stats/boulders/${type}/${grade}`);
             setData(boulders);
         }
         load();

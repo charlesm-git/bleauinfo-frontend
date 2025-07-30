@@ -4,6 +4,8 @@ import { Box } from "~/ui/box";
 import { FetchData } from "~/ui/data";
 import { CustomLineChart } from "~/ui/chart";
 import { BoulderGradeItem } from "~/ui/list-boulder-item";
+import config from "~/config";
+
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -13,7 +15,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let data = await FetchData(`http://127.0.0.1:8000/areas/${params.areaId}/stats`);
+  let data = await FetchData(`${config.baseUrl}/areas/${params.areaId}/stats`);
   return data;
 }
 

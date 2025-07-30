@@ -1,6 +1,8 @@
 import type { Route } from "./+types/search.tsx";
 import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data.js";
+import config from "~/config";
+
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -10,7 +12,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let data = await FetchData(`http://127.0.0.1:8000/search/${params.text}`);
+  let data = await FetchData(`${config.baseUrl}/search/${params.text}`);
   return data;
 }
 

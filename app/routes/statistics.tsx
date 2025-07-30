@@ -3,6 +3,7 @@ import { MainLayout } from "../ui/mainLayout";
 import { FetchData } from "~/ui/data";
 import { CustomLineChart, SlidingLineChart } from "~/ui/chart";
 import { useEffect, useState } from 'react';
+import config from "~/config";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -23,7 +24,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeDistribution = await FetchData("http://127.0.0.1:8000/stats/grades/distribution");
+      const gradeDistribution = await FetchData(`${config.baseUrl}/stats/grades/distribution`);
       setGradeDistributionData(gradeDistribution);
     }
     load();
@@ -31,7 +32,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-grade");
+      const gradeAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-grade`);
       setGradeAscentsData(gradeAscents);
     }
     load();
@@ -39,7 +40,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-ascents");
+      const areaAscents = await FetchData(`${config.baseUrl}/stats/areas/most-ascents`);
       setAreaAscentsData(areaAscents);
     }
     load();
@@ -47,7 +48,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const stylesDistribution = await FetchData("http://127.0.0.1:8000/stats/boulders/styles/distribution");
+      const stylesDistribution = await FetchData(`${config.baseUrl}/stats/boulders/styles/distribution`);
       setStyleData(stylesDistribution);
     }
     load();
@@ -55,7 +56,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const monthAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-month");
+      const monthAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-month`);
       setMonthlyAscentsData(monthAscents);
     }
     load();
@@ -63,7 +64,7 @@ export default function Statistics() {
 
   useEffect(() => {
     async function load() {
-      const yearAscents = await FetchData("http://127.0.0.1:8000/stats/ascents/per-year");
+      const yearAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-year`);
       setYearlyAscentsData(yearAscents);
     }
     load();
@@ -126,7 +127,7 @@ export default function Statistics() {
         <h1 className="text-xl font-bold mb-8">Percentage of ascents per month</h1>
         <SlidingLineChart data={monthlyAscentsData} setData={setMonthlyAscentsData} dataKeyX="month" dataKeyY1="percentage"
           margin={{ left: 30, right: 30, top: 10, bottom: 30 }} />
-        <p className="w-full bg-slate-300 p-4 mb-8 rounded-xl">Analysis</p>
+        <p className="w-full bg-slate-300 p-4 mb-8 rounded-xl">Analysis soming soon</p>
       </div>
       <div className="mt-16">
         <h1 className="text-xl font-bold mb-8">Number of ascents per year</h1>
@@ -134,26 +135,8 @@ export default function Statistics() {
           <CustomLineChart data={yearlyAscentsData} dataKeyX="year" dataKeyY1="ascents"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
         </div>
-        <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Analysis</p>
+        <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">Analysis coming soon</p>
       </div>
     </MainLayout>
-  )
-}
-
-function MonthButton({ content, move, monthData, setMonthData }) {
-  function handleClick() {
-    let newData
-    if (move === "right") {
-      const last = monthData[monthData.length - 1]
-      newData = [last, ...monthData.slice(0, -1)]
-    }
-    else {
-      const [first, ...rest] = monthData
-      newData = [...rest, first]
-    }
-    setMonthData(newData)
-  }
-  return (
-    <button className="bg-slate-300 text-2xl px-8 py-1 mx-8 rounded-3xl hover:scale-110 active:bg-slate-400 transition" onClick={handleClick}>{content}</button>
   )
 }
