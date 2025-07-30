@@ -18,6 +18,8 @@ export default function Statistics() {
   const [monthlyAscentsData, setMonthlyAscentsData] = useState([]);
   const [yearlyAscentsData, setYearlyAscentsData] = useState([]);
   const [gradeAscentsData, setGradeAscentsData] = useState([]);
+  const [styleData, setStyleData] = useState([]);
+
 
   useEffect(() => {
     async function load() {
@@ -39,6 +41,14 @@ export default function Statistics() {
     async function load() {
       const areaAscents = await FetchData("http://127.0.0.1:8000/stats/areas/most-ascents");
       setAreaAscentsData(areaAscents);
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function load() {
+      const stylesDistribution = await FetchData("http://127.0.0.1:8000/stats/boulders/styles/distribution");
+      setStyleData(stylesDistribution);
     }
     load();
   }, []);
@@ -96,6 +106,16 @@ export default function Statistics() {
         <h1 className="text-xl font-bold mb-8">Top 10 areas with the most registered ascents</h1>
         <div className="justify-items-center">
           <CustomLineChart data={areaAscentsData} dataKeyX="area.name" dataKeyY1="ascents"
+            tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
+        </div>
+        <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">
+          Non surprisingly, most popular areas count the most ascents. Isatis still being far in front.
+        </p>
+      </div>
+      <div className="mt-16">
+        <h1 className="text-xl font-bold mb-8">Style Distribution</h1>
+        <div className="justify-items-center">
+          <CustomLineChart data={styleData} dataKeyX="style" dataKeyY1="boulders"
             tickAngle={-45} margin={{ left: 30, right: 30, top: 10, bottom: 100 }} />
         </div>
         <p className="w-full bg-slate-300 p-4 mt-4 mb-8 rounded-xl">

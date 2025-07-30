@@ -43,7 +43,7 @@ function AreaStatistics({ data }) {
         <h2 className="text-xl font-semibold mb-4" >Grade distribution</h2>
         <div className="justify-items-center">
           <CustomLineChart data={data.grade_distribution} dataKeyX="grade.value" tickAngle={-45}
-            dataKeyY="boulders" margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
+            dataKeyY1="boulders" margin={{ left: 30, right: 30, top: 10, bottom: 50 }} />
         </div>
       </div>
       <div className="mb-8">
