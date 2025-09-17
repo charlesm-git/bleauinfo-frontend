@@ -1,4 +1,4 @@
-export function StarRating({ rating }) {
+export function StarRating({ rating }: {rating: number}) {
     const percentage = (rating / 5) * 100;
 
     return (

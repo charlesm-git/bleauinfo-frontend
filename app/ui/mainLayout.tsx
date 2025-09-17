@@ -1,6 +1,6 @@
 import { NavBar } from "./navBar";
 
-export function MainLayout({ children }) {
+export function MainLayout({ children }: {children: React.ReactNode}) {
   return (
     <body className="mb-24">
       <header className="bg-slate-700 mb-8">
