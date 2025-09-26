@@ -1,6 +1,9 @@
 import type { Route } from "./+types/best-rated";
 import { MainLayout } from "../ui/mainLayout";
-import { GradeBlock } from "~/ui/list-grade-block";
+import { GradeBlock } from "~/ui/gradeBlock";
+import { useEffect, useState } from "react";
+import { FetchData } from "~/data/data";
+import config from "~/config";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,41 +13,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function BestRated() {
-  const grades = [
-    "9a",
-    "8c+",
-    "8c",
-    "8b+",
-    "8b",
-    "8a+",
-    "8a",
-    "7c+",
-    "7c",
-    "7b+",
-    "7b",
-    "7a+",
-    "7a",
-    "6c+",
-    "6c",
-    "6b+",
-    "6b",
-    "6a+",
-    "6a",
-    "5+",
-    "5",
-    "5-",
-    "4+",
-    "4",
-    "4-",
-    "3+",
-    "3",
-    "3-",
-    "2+",
-    "2",
-    "2-",
-    "1+",
-    "1",
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      const sorted_boulders = await FetchData(`${config.baseUrl}/stats/boulders/best-rated/`);
+      setData(sorted_boulders);
+    }
+    load();
+  }, []);
+  if (!data.length) return null;
 
   return (
     <MainLayout>
@@ -59,8 +37,8 @@ export default function BestRated() {
         </p>
         <p className="italic">The last column shows the number of public ascents logged</p>
       </div>
-      {grades.map((grade: string) => (
-        <GradeBlock key={grade} grade={grade} type="best-rated" />
+      {data.map((grade_block: Record<string, any>) => (
+        <GradeBlock key={grade_block.grade.id} data={grade_block} />
       ))}
     </MainLayout>
   );

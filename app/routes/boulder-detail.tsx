@@ -1,10 +1,14 @@
-import type { Route } from "./+types/areas-detail";
+import type { Route } from "./+types/boulder-detail";
 import { MainLayout } from "../ui/mainLayout";
-import { FetchData } from "~/ui/data";
-import { SlidingLineChart } from "~/ui/chart";
-import { Box } from "~/ui/box";
+import { FetchData } from "~/data/data";
+import { StatBadge } from "~/ui/statBadge";
 import { useState } from "react";
 import config from "~/config";
+import { ChartLine, ChartWrapper } from "~/ui/chart";
+import { ChartColumnBig, Star, TrendingUp } from "lucide-react";
+import { BleauInfoButton } from "~/ui/bleauInfoButton";
+import { TypoH1, TypoH3 } from "~/ui/typography";
+import { Link } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,44 +17,62 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+interface BoulderParams {
+  boulderId: number;
+}
+
+export async function loader({ params }: { params: BoulderParams }) {
   let data = await FetchData(`${config.baseUrl}/boulders/${params.boulderId}`);
   return data;
 }
 
 export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
   const boulder = loaderData;
-  const [graphData, setGraphData] = useState(boulder.aggregated_ascents);
+  const [chartData, setChartData] = useState(boulder.aggregated_ascents);
+  const chartConfig = {
+    boulder: {
+      label: "Boulder",
+      color: "var(--chart-1)",
+    },
+    general: {
+      label: "Overall",
+      color: "var(--chart-reference)",
+    },
+  };
 
   return (
     <MainLayout>
-      <div className="flex flex-row items-end gap-4">
-        <h1 className="text-2xl font-bold">{boulder.name}</h1>
-        <a href={`/areas/${boulder.area.id}`} className="text-lg text-slate-700">
-          {boulder.area.name}
-        </a>
-        <a href={boulder.url} className="text-sky-600 hover:underline active:text-sky-800 ml-8">
-          Check on Bleau.Info
-        </a>
+      <div className="flex flex-col mb-4">
+        <div className="flex flex-row justify-between align-items-center">
+          <TypoH1 className="mb-2">{boulder.name}</TypoH1>
+          <BleauInfoButton link={boulder.url} />
+        </div>
+        <TypoH3 className="w-fit text-muted-foreground hover:text-muted">
+          <Link to={`/areas/${boulder.area.id}`}>{boulder.area.name}</Link>
+        </TypoH3>
       </div>
       <div className="grid grid-cols-3 gap-15 max-w-4xl mx-auto my-8">
         {!boulder.slash_grade ? (
-          <Box title="Grade" content={`${boulder.grade.value}`} />
+          <StatBadge Icon={ChartColumnBig} content="Grade" value={`${boulder.grade.value}`} />
         ) : (
-          <Box title="Grade" content={`${boulder.grade.value} / ${boulder.slash_grade.value}`} />
+          <StatBadge
+            Icon={ChartColumnBig}
+            content="Grade"
+            value={`${boulder.grade.value} / ${boulder.slash_grade.value}`}
+          />
         )}
-        <Box title="Ascents" content={boulder.repetitions.length} />
-        <Box title="Rating" content={boulder.rating} />
+        <StatBadge Icon={TrendingUp} content="Ascents" value={boulder.ascents.length} />
+        <StatBadge Icon={Star} content="Rating" value={`${boulder.rating}/5`} />
       </div>
-      <h2 className="text-xl font-semibold mb-4">Pourcentage of ascents per month</h2>
-      <SlidingLineChart
-        data={graphData}
-        setData={setGraphData}
+      <ChartWrapper
+        ChartType={ChartLine}
+        chartConfig={chartConfig}
+        chartData={chartData}
         dataKeyX="month"
-        dataKeyY1="boulder"
-        dataKeyY2="general"
-        tickAngle={-45}
-        margin={{ left: 30, right: 30, top: 10, bottom: 50 }}
+        title="Pourcentage of ascents per month"
+        chartSetData={setChartData}
+        enableSliding={true}
+        margin={{ right: 50, left: 50, bottom: 20, top: 20 }}
       />
     </MainLayout>
   );

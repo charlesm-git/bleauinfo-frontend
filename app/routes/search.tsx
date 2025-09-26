@@ -1,7 +1,11 @@
 import type { Route } from "./+types/search.tsx";
 import { MainLayout } from "../ui/mainLayout";
-import { FetchData } from "~/ui/data.js";
+import { FetchData } from "~/data/data.js";
 import config from "~/config";
+import { TypoH1, TypoH2 } from "~/ui/typography.js";
+import { AreaBadge } from "~/ui/areaBadge.js";
+import { BoulderTableSearch } from "~/ui/boulderTable.js";
+import { useParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,49 +21,32 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function Search({ loaderData }: Route.ComponentProps) {
   const { boulders, areas } = loaderData;
+  const params = useParams();
+  const searchText = params.text;
   return (
     <MainLayout>
+      <TypoH1>
+        Search result for: <span className="text-primary">{searchText}</span>
+      </TypoH1>
+      {boulders.length === 0 && areas.length === 0 && (
+        <TypoH2 className="text-center text-muted-foreground border-none">No result found</TypoH2>
+      )}
       {boulders.length > 0 && (
-        <>
-          <h1 className="text-2xl font-semibold mb-4">Boulders</h1>
-          {boulders.map((boulder: Record<string, any>) => (
-            <BoulderItem key={boulder.id} boulder={boulder} />
-          ))}
-        </>
+        <div className="mb-16">
+          <TypoH2 className="border-none">Boulders</TypoH2>
+          <BoulderTableSearch boulders={boulders} />
+        </div>
       )}
       {areas.length > 0 && (
-        <>
-          <h1 className="text-2xl font-semibold my-4">Areas</h1>
-          {areas.map((area: Record<string, any>) => (
-            <AreaItem key={area.id} area={area} />
-          ))}
-        </>
+        <div className="">
+          <TypoH2 className="border-none">Areas</TypoH2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6">
+            {areas.map((area: Record<string, any>) => (
+              <AreaBadge key={area.id} area={area} />
+            ))}
+          </div>
+        </div>
       )}
     </MainLayout>
-  );
-}
-
-function BoulderItem({ boulder }: { boulder: Record<string, any> }) {
-  return (
-    <div className="flex flex-row gap-4">
-      <a href={`/boulders/${boulder.id}`} className="text-slate-700 text-medium">
-        {boulder.name}
-      </a>
-      <div className="grade">
-        {boulder.grade.value}
-        {boulder.slash_grade ? (
-          <span className="italic text-slate-400"> {boulder.slash_grade.value}</span>
-        ) : null}
-      </div>
-      <a href={`/areas/${boulder.area.id}`}>{boulder.area.name}</a>
-    </div>
-  );
-}
-
-function AreaItem({ area }: { area: Record<string, any> }) {
-  return (
-    <div>
-      <a href={`/areas/${area.id}`}>{area.name}</a>
-    </div>
   );
 }
