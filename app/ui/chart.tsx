@@ -110,6 +110,7 @@ export function ChartLine({
   chartData,
   chartConfig,
   dataKeyX,
+  legendOffset,
   margin = { top: 20, bottom: 20, right: 20, left: 20 },
   tickAngle = 0,
 }: ChartProps) {
@@ -143,8 +144,7 @@ export function ChartLine({
         ))}
         <ChartLegend
           content={<ChartLegendContent />}
-          // className={legendOffset ? `mt-${legendOffset}` : ""}
-          className="mt-4"
+          className={legendOffset ? `mt-${legendOffset}` : ""}
         />
       </LineChart>
     </ChartContainer>
@@ -155,6 +155,7 @@ export function ChartBarVertical({
   chartData,
   chartConfig,
   dataKeyX,
+  legendOffset,
   margin = { top: 20, bottom: 20, right: 20, left: 20 },
   tickAngle = 0,
 }: ChartProps) {
@@ -186,7 +187,10 @@ export function ChartBarVertical({
             isAnimationActive={false}
           />
         ))}
-        <ChartLegend content={<ChartLegendContent />} />
+        <ChartLegend
+          content={<ChartLegendContent />}
+          className={legendOffset ? `mt-${legendOffset}` : ""}
+        />
       </BarChart>
     </ChartContainer>
   );

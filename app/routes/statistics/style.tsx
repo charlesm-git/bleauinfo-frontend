@@ -3,7 +3,7 @@ import { MainLayout } from "../../ui/mainLayout";
 import { FetchData } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartArea, ChartWrapper } from "~/ui/chart";
+import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -35,14 +35,14 @@ export default function StyleStatistics() {
   return (
     <MainLayout>
       <ChartWrapper
-        ChartType={ChartArea}
+        ChartType={ChartBarVertical}
         chartData={styleData}
         chartConfig={styleChartConfig}
-        dataKeyX="style"
+        dataKeyX="styleType"
         title="Style repartition"
         description="Repartition of all the styles in the entire forest"
         tickAngle={-50}
-        legendOffset={8}
+        legendOffset={12}
         commentContent="statistics.style"
       />
     </MainLayout>

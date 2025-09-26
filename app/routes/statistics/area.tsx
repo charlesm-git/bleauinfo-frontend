@@ -3,7 +3,7 @@ import { MainLayout } from "../../ui/mainLayout";
 import { FetchData } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartArea, ChartWrapper } from "~/ui/chart";
+import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -32,14 +32,14 @@ export default function AreaStatistics() {
   return (
     <MainLayout>
       <ChartWrapper
-        ChartType={ChartArea}
+        ChartType={ChartBarVertical}
         chartData={areaAscentsData}
         chartConfig={areaChartConfig}
         dataKeyX="area.name"
         title="Top 10 areas with the most registered ascents"
         tickAngle={-30}
         commentContent="statistics.area"
-        legendOffset={8}
+        legendOffset={12}
       />
     </MainLayout>
   );
