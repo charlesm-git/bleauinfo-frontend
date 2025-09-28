@@ -1,11 +1,10 @@
 import type { Route } from "./+types/search.tsx";
 import { MainLayout } from "../ui/mainLayout";
-import { FetchData } from "~/data/data.js";
+import { GetRequest } from "~/data/data.js";
 import config from "~/config";
 import { TypoH1, TypoH2 } from "~/ui/typography.js";
 import { AreaBadge } from "~/ui/areaBadge.js";
 import { BoulderTableSearch } from "~/ui/boulderTable.js";
-import { useParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,15 +13,21 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let data = await FetchData(`${config.baseUrl}/search/${params.text}`);
-  return data;
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const searchText = url.searchParams.get("q") || "";
+
+  if (!searchText.trim()) {
+    return { boulders: [], areas: [], searchText: "" };
+  }
+
+  let data = await GetRequest(`${config.baseUrl}/search?q=${encodeURIComponent(searchText)}`);
+  return { ...data, searchText };
 }
 
 export default function Search({ loaderData }: Route.ComponentProps) {
-  const { boulders, areas } = loaderData;
-  const params = useParams();
-  const searchText = params.text;
+  const { boulders, areas, searchText } = loaderData;
+
   return (
     <MainLayout>
       <TypoH1>

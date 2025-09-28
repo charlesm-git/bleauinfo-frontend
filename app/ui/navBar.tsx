@@ -98,6 +98,11 @@ function NavMenu() {
             <Link to="/areas">Areas list</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+                <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link to="/recommender">Recommender</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -130,7 +135,7 @@ function SearchBar() {
     e.preventDefault();
     inputRef.current?.blur();
     if (text.trim()) {
-      navigate(`/search/${encodeURIComponent(text)}`);
+      navigate(`/search?q=${encodeURIComponent(text)}`);
     }
   };
   return (

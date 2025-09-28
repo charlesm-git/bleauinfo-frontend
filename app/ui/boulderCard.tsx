@@ -8,10 +8,11 @@ interface BoulderItemProps {
   name: string;
   area: Record<string, string>;
   rating: number;
-  ascents: number;
+  ascents?: number;
   grade: Record<string, any>;
   slash_grade?: Record<string, any>;
   styles?: Record<string, string>[];
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 export function BoulderCard({
@@ -22,9 +23,10 @@ export function BoulderCard({
   grade,
   slash_grade,
   styles,
+  onClick,
 }: BoulderItemProps) {
   return (
-    <Card className="flex-1 hover:shadow-lg transition-shadow">
+    <Card className="flex-1 hover:shadow-lg transition-shadow" onClick={onClick}>
       <CardContent className="">
         <div className="flex justify-between items-start gap-4">
           <div className="flex-1">
@@ -41,13 +43,19 @@ export function BoulderCard({
                 {slash_grade ? `/${slash_grade.value}` : ""}
               </Badge>
             )}
-            <div className="flex items-center justify-end gap-1 text-sm text-muted-foreground">
-              <TrendingUp className="h-4 w-4" />
-              <span>{ascents} ascents</span>
-            </div>
-            <div className="flex gap-1">
-              {styles && styles.map((style) => <Badge variant="outline">{style.style}</Badge>)}
-            </div>
+            {ascents !== null && (
+              <div className="flex items-center justify-end gap-1 text-sm text-muted-foreground">
+                <TrendingUp className="h-4 w-4" />
+                <span>{ascents} ascents</span>
+              </div>
+            )}
+            {styles && (
+              <div className="flex gap-1 justify-end">
+                {styles.map((style) => (
+                  <Badge key={style.id} variant="outline">{style.style}</Badge>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </CardContent>

@@ -7,9 +7,6 @@ export function GradeBlock({ data }: { data: Record<string, any> }) {
     <div className="my-4">
       <TypoH2>{data.grade.value}</TypoH2>
       <div className="grid grid-cols-2 m-3 gap-3">
-        {/* {data.boulders.map((boulder: Record<string, any>) => (
-          <BoulderAreaItem key={boulder.id} boulder={boulder} />
-        ))} */}
         {data.boulders.map((boulder: Record<string, any>) => (
           <Link to={`/boulders/${boulder.id}`}>
             <BoulderCard

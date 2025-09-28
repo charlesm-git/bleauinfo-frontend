@@ -1,6 +1,6 @@
 import type { Route } from "./+types/area";
 import { MainLayout } from "../../ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
@@ -17,7 +17,7 @@ export default function AreaStatistics() {
 
   useEffect(() => {
     async function load() {
-      const areaAscents = await FetchData(`${config.baseUrl}/stats/areas/most-ascents`);
+      const areaAscents = await GetRequest(`${config.baseUrl}/stats/areas/most-ascents`);
       setAreaAscentsData(areaAscents);
     }
     load();

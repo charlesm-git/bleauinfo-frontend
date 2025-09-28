@@ -2,8 +2,9 @@ import type { Route } from "./+types/best-rated";
 import { MainLayout } from "../ui/mainLayout";
 import { GradeBlock } from "~/ui/gradeBlock";
 import { useEffect, useState } from "react";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import config from "~/config";
+import { TypoH1 } from "~/ui/typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,7 +18,7 @@ export default function BestRated() {
 
   useEffect(() => {
     async function load() {
-      const sorted_boulders = await FetchData(`${config.baseUrl}/stats/boulders/best-rated/`);
+      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulders/best-rated/`);
       setData(sorted_boulders);
     }
     load();
@@ -26,6 +27,7 @@ export default function BestRated() {
 
   return (
     <MainLayout>
+      <TypoH1>Best rated boulders</TypoH1>
       <div className="p-4 rounded-md bg-slate-200">
         <p>
           This page gather the <strong>best rated boulders.</strong>

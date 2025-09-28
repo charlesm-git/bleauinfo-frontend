@@ -1,6 +1,6 @@
 import type { Route } from "./+types/time";
 import { MainLayout } from "../../ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartLine, ChartWrapper } from "~/ui/chart";
@@ -18,7 +18,7 @@ export default function TimeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const monthAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-month`);
+      const monthAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-month`);
       setMonthlyAscentsData(monthAscents);
     }
     load();
@@ -26,7 +26,7 @@ export default function TimeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const yearAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-year`);
+      const yearAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-year`);
       setYearlyAscentsData(yearAscents);
     }
     load();

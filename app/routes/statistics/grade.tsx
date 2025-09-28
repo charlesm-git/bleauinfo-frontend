@@ -1,6 +1,6 @@
 import type { Route } from "./+types/grade";
 import { MainLayout } from "../../ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
@@ -18,7 +18,7 @@ export default function GradeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeDistribution = await FetchData(`${config.baseUrl}/stats/grades/distribution`);
+      const gradeDistribution = await GetRequest(`${config.baseUrl}/stats/grades/distribution`);
       setGradeDistributionData(gradeDistribution);
     }
     load();
@@ -26,7 +26,7 @@ export default function GradeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeAscents = await FetchData(`${config.baseUrl}/stats/ascents/per-grade`);
+      const gradeAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-grade`);
       setGradeAscentsData(gradeAscents);
     }
     load();

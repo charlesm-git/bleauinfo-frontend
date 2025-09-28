@@ -1,7 +1,7 @@
 import type { Route } from "./+types/detail";
 import { MainLayout } from "~/ui/mainLayout";
 import { StatBadge } from "~/ui/statBadge";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { BoulderTable } from "~/ui/boulderTable";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
@@ -17,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let data = await FetchData(`${config.baseUrl}/areas/${params.areaId}/stats`);
+  let data = await GetRequest(`${config.baseUrl}/areas/${params.areaId}/stats`);
   return data;
 }
 

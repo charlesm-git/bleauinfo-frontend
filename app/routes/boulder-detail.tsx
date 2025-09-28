@@ -1,6 +1,6 @@
 import type { Route } from "./+types/boulder-detail";
 import { MainLayout } from "../ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { StatBadge } from "~/ui/statBadge";
 import { useState } from "react";
 import config from "~/config";
@@ -22,7 +22,7 @@ interface BoulderParams {
 }
 
 export async function loader({ params }: { params: BoulderParams }) {
-  let data = await FetchData(`${config.baseUrl}/boulders/${params.boulderId}`);
+  let data = await GetRequest(`${config.baseUrl}/boulders/${params.boulderId}`);
   return data;
 }
 

@@ -1,6 +1,6 @@
 import type { Route } from "./+types/style";
 import { MainLayout } from "../../ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
@@ -17,7 +17,7 @@ export default function StyleStatistics() {
 
   useEffect(() => {
     async function load() {
-      const stylesDistribution = await FetchData(
+      const stylesDistribution = await GetRequest(
         `${config.baseUrl}/stats/boulders/styles/distribution`
       );
       setStyleData(stylesDistribution);

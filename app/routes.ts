@@ -13,10 +13,12 @@ export default [
   ]),
 
   ...prefix("areas", [
-    route("/", "./routes/areas/list.tsx"),
+    index("./routes/areas/list.tsx"),
     route("/:areaId", "./routes/areas/detail.tsx"),
   ]),
 
   route("boulders/:boulderId", "./routes/boulder-detail.tsx"),
-  route("search/:text", "./routes/search.tsx"),
+
+  route("search", "./routes/search.tsx"),
+  route("recommender", "./routes/recommender.tsx"),
 ] satisfies RouteConfig;

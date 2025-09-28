@@ -1,6 +1,6 @@
 import type { Route } from "./+types/list";
 import { MainLayout } from "~/ui/mainLayout";
-import { FetchData } from "~/data/data";
+import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 
@@ -25,7 +25,7 @@ export default function AreasList() {
 
   useEffect(() => {
     async function load() {
-      const regionsData = await FetchData(`${config.baseUrl}/regions/`);
+      const regionsData = await GetRequest(`${config.baseUrl}/regions/`);
       SetRegions(regionsData);
     }
     load();
