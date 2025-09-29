@@ -39,7 +39,7 @@ export function TypoH3({ children, className }: TypographyProps) {
 }
 
 export function TypoP({ children, className }: TypographyProps) {
-  return <p className={cn("leading-7 [&:not(:first-child)]:mt-4", className)}>{children}</p>;
+  return <p className={cn("leading-6 text-base", className)}>{children}</p>;
 }
 
 export function TypoLead({ children, className }: TypographyProps) {

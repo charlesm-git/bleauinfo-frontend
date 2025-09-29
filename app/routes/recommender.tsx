@@ -3,13 +3,23 @@ import { MainLayout } from "../ui/mainLayout";
 import { useEffect, useState } from "react";
 
 import { Command, CommandInput, CommandList, CommandItem } from "~/components/ui/command";
-import { GetRequest, PostRequest } from "~/data/data";
+import { GetRequest, PostRequest as PostRequestRecommendation } from "~/data/data";
 import config from "~/config";
 import { Button } from "~/components/ui/button";
-import { X } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { BoulderCard } from "~/ui/boulderCard";
-import { TypoH1, TypoH2 } from "~/ui/typography";
-import { Link } from "react-router";
+import { TypoH1, TypoH2, TypoP } from "~/ui/typography";
+import { BoulderBadge } from "~/ui/boulderBadge";
+import { PaginationControl } from "~/ui/paginationControl";
+import { toast, Toaster } from "sonner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { MarkdownContent } from "~/ui/markdownContent";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,7 +33,15 @@ export default function Recommender() {
   const [boulderSuggestions, setBoulderSuggestions] = useState<Record<string, any>[]>([]);
   const [bouldersSelected, setBouldersSelected] = useState<Record<string, any>[]>([]);
   const [recommendations, setRecommendations] = useState<Record<string, any>[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Calculate pagination
+  const ITEMS_PER_PAGE = 10;
+  const totalPages = Math.ceil(recommendations.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedRecommendations = recommendations.slice(startIndex, endIndex);
 
   const resetEntry = () => {
     setBoulderSuggestions([]);
@@ -34,6 +52,7 @@ export default function Recommender() {
     if (!bouldersSelected.includes(boulder)) {
       setBouldersSelected([...bouldersSelected, boulder]);
     }
+    setText("")
   };
 
   const unselectBoulder = (boulder: Record<string, any>) => {
@@ -44,18 +63,25 @@ export default function Recommender() {
     setBouldersSelected([]);
     setRecommendations([]);
     setBoulderSuggestions([]);
-    setText("")
+    setText("");
   };
 
   const getRecommendations = async () => {
     if (bouldersSelected.length === 0) {
+      toast.info("Select some boulders first", {
+        description: "Search for climbs you've enjoyed to get recommendations",
+      });
       return;
     }
     setIsLoading(true);
     const boulderIDs = bouldersSelected.map((boulder) => boulder.id);
-    const boulders = await PostRequest(`${config.baseUrl}/recommendation/`, boulderIDs);
+    const boulders = await PostRequestRecommendation(
+      `${config.baseUrl}/recommendation/`,
+      boulderIDs
+    );
     if (boulders) {
       setRecommendations(boulders);
+      setCurrentPage(1);
     }
     setIsLoading(false);
   };
@@ -84,7 +110,31 @@ export default function Recommender() {
 
   return (
     <MainLayout>
-      <TypoH1>Recommender</TypoH1>
+      <div className="flex gap-5 items-end justify-center mb-6">
+        <TypoH1 className="mb-0">Recommender</TypoH1>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button size="icon" variant="ghost">
+              <Info />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <TypoP className="text-sm">
+              Find boulders similar to ones you've climbed based on ascents, styles, and grades.
+            </TypoP>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+      <Accordion type="single" collapsible className="mb-5">
+        <AccordionItem value="item-1">
+          <AccordionTrigger>
+            <TypoH2 className="mb-0 text-lg border-none">How it works</TypoH2>
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-4 text-balance w-full">
+            <MarkdownContent contentKey="recommender" />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
       <Command className="rounded-lg border shadow-md md:min-w-[450px] p-5" shouldFilter={false}>
         <div className="flex flex-row justify-between">
           <CommandInput
@@ -118,6 +168,17 @@ export default function Recommender() {
           ))}
         </CommandList>
       </Command>
+      {bouldersSelected.length > 0 && (
+        <div className="flex flex-row gap-2 my-4 flex-wrap">
+          {bouldersSelected.map((boulder) => (
+            <BoulderBadge
+              key={boulder.id}
+              boulder={boulder}
+              onClick={() => unselectBoulder(boulder)}
+            />
+          ))}
+        </div>
+      )}
       <div className="flex justify-center my-5 gap-10">
         <Button size="lg" className="" onClick={getRecommendations}>
           Recommend
@@ -128,45 +189,31 @@ export default function Recommender() {
       </div>
       {recommendations.length > 0 && (
         <div className="mt-8">
-          <TypoH2>Recommendations</TypoH2>
+          <TypoH2>
+            Recommendations: page {currentPage}/{totalPages}
+          </TypoH2>
           <div className="grid grid-cols-2 m-3 gap-3">
-            {recommendations.map((boulder) => (
+            {paginatedRecommendations.map((boulder) => (
               <a href={`/boulders/${boulder.id}`} target="_blank" rel="noopener noreferrer">
                 <BoulderCard
                   key={boulder.id}
-                  name={boulder.name}
-                  area={boulder.area}
-                  grade={boulder.grade}
-                  slash_grade={boulder.slash_grade}
-                  rating={boulder.rating}
-                  styles={boulder.styles}
-                  ascents={boulder.ascents}
+                  boulder={boulder}
+                  showAddToSelection
+                  onAddToSelection={selectBoulder}
                 />
               </a>
             ))}
           </div>
+          {recommendations.length > 10 && (
+            <PaginationControl
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
       )}
-      {bouldersSelected.length > 0 && (
-        <div className="mt-8">
-          <TypoH2>Boulders selected</TypoH2>
-          <div className="grid grid-cols-2 m-3 gap-3">
-            {bouldersSelected.map((boulder) => (
-              <BoulderCard
-                key={boulder.id}
-                name={boulder.name}
-                area={boulder.area}
-                grade={boulder.grade}
-                slash_grade={boulder.slash_grade}
-                rating={boulder.rating}
-                styles={boulder.styles}
-                ascents={boulder.ascents}
-                onClick={() => unselectBoulder(boulder)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      <Toaster position="top-center" closeButton />
     </MainLayout>
   );
 }

@@ -11,13 +11,13 @@ export async function GetRequest(url: string): Promise<any | null> {
 
 export async function PostRequest(url: string, data: number[]): Promise<any | null> {
   // Call your FastAPI endpoint with the list of boulder IDs
-  console.log(data)
+  console.log(data);
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ boulder_ids: data }),
+    body: JSON.stringify({ boulder_ids: data, top_N: 50 }),
   });
 
   if (!response.ok) {

@@ -5,6 +5,8 @@ import statisticsTimeMonth from "./statistics/time-month.md?raw";
 import statisticsTimeYear from "./statistics/time-year.md?raw";
 import statisticsArea from "./statistics/area.md?raw";
 import home from "./home.md?raw";
+import recommender from "./recommender.md?raw";
+
 
 export const content = {
   "home": home,
@@ -14,6 +16,7 @@ export const content = {
   "statistics.style": statisticsStyle,
   "statistics.time.month": statisticsTimeMonth,
   "statistics.time.year": statisticsTimeYear,
+  "recommender": recommender,
 } as const;
 
 export type ContentKey = keyof typeof content;

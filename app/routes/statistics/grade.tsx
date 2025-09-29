@@ -4,6 +4,7 @@ import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
+import { TypoH1 } from "~/ui/typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -49,6 +50,7 @@ export default function GradeStatistics() {
   return (
     <MainLayout>
       <div className="flex flex-col gap-6">
+        <TypoH1>Grade Analytics</TypoH1>
         <ChartWrapper
           ChartType={ChartBarVertical}
           chartData={gradeDistributionData}

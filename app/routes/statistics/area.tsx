@@ -4,6 +4,7 @@ import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
+import { TypoH1 } from "~/ui/typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -31,6 +32,7 @@ export default function AreaStatistics() {
   };
   return (
     <MainLayout>
+      <TypoH1>Area Analytics</TypoH1>
       <ChartWrapper
         ChartType={ChartBarVertical}
         chartData={areaAscentsData}
