@@ -7,7 +7,7 @@ import { GetRequest, PostRequest as PostRequestRecommendation } from "~/data/dat
 import config from "~/config";
 import { Button } from "~/components/ui/button";
 import { Info, X } from "lucide-react";
-import { BoulderCard } from "~/ui/boulderCard";
+import { BoulderCard, BoulderCardSkeleton } from "~/ui/boulderCard";
 import { TypoH1, TypoH2, TypoP } from "~/ui/typography";
 import { BoulderBadge } from "~/ui/boulderBadge";
 import { PaginationControl } from "~/ui/paginationControl";
@@ -34,7 +34,7 @@ export default function Recommender() {
   const [bouldersSelected, setBouldersSelected] = useState<Record<string, any>[]>([]);
   const [recommendations, setRecommendations] = useState<Record<string, any>[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingRecommendation, setIsLoadingRecommendation] = useState(false);
 
   // Calculate pagination
   const ITEMS_PER_PAGE = 10;
@@ -52,7 +52,7 @@ export default function Recommender() {
     if (!bouldersSelected.includes(boulder)) {
       setBouldersSelected([...bouldersSelected, boulder]);
     }
-    setText("")
+    setText("");
   };
 
   const unselectBoulder = (boulder: Record<string, any>) => {
@@ -73,17 +73,17 @@ export default function Recommender() {
       });
       return;
     }
-    setIsLoading(true);
+    setIsLoadingRecommendation(true);
     const boulderIDs = bouldersSelected.map((boulder) => boulder.id);
     const boulders = await PostRequestRecommendation(
-      `${config.baseUrl}/recommendation/`,
+      `${config.baseUrl}/recommendation`,
       boulderIDs
     );
     if (boulders) {
       setRecommendations(boulders);
       setCurrentPage(1);
     }
-    setIsLoading(false);
+    setIsLoadingRecommendation(false);
   };
 
   useEffect(() => {
@@ -93,7 +93,6 @@ export default function Recommender() {
     }
 
     const timer = setTimeout(async () => {
-      setIsLoading(true);
       try {
         const fetchedBoulders = await GetRequest(
           `${config.baseUrl}/recommendation/selection?q=${text}`
@@ -101,8 +100,6 @@ export default function Recommender() {
         setBoulderSuggestions(fetchedBoulders);
       } catch (error) {
         console.error("Search failed:", error);
-      } finally {
-        setIsLoading(false);
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -111,6 +108,7 @@ export default function Recommender() {
   return (
     <MainLayout>
       <div className="flex gap-5 items-end justify-center mb-6">
+        {/* Title with tooltip */}
         <TypoH1 className="mb-0">Recommender</TypoH1>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -125,6 +123,7 @@ export default function Recommender() {
           </TooltipContent>
         </Tooltip>
       </div>
+      {/* Description Accordion */}
       <Accordion type="single" collapsible className="mb-5">
         <AccordionItem value="item-1">
           <AccordionTrigger>
@@ -135,6 +134,7 @@ export default function Recommender() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      {/* Command window for climb search and selection */}
       <Command className="rounded-lg border shadow-md md:min-w-[450px] p-5" shouldFilter={false}>
         <div className="flex flex-row justify-between">
           <CommandInput
@@ -168,6 +168,7 @@ export default function Recommender() {
           ))}
         </CommandList>
       </Command>
+      {/* List of selected boulders */}
       {bouldersSelected.length > 0 && (
         <div className="flex flex-row gap-2 my-4 flex-wrap">
           {bouldersSelected.map((boulder) => (
@@ -187,10 +188,23 @@ export default function Recommender() {
           Reset
         </Button>
       </div>
-      {recommendations.length > 0 && (
+      {/* List of recommended boulders with pagination control */}
+      {isLoadingRecommendation && (
         <div className="mt-8">
           <TypoH2>
-            Recommendations: page {currentPage}/{totalPages}
+            Recommendations: {currentPage}/{totalPages}
+          </TypoH2>
+          <div className="grid grid-cols-2 m-3 gap-3">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <BoulderCardSkeleton key={index} />
+            ))}
+          </div>
+        </div>
+      )}
+      {recommendations.length > 0 && !isLoadingRecommendation && (
+        <div className="mt-8">
+          <TypoH2>
+            Recommendations: {currentPage}/{totalPages}
           </TypoH2>
           <div className="grid grid-cols-2 m-3 gap-3">
             {paginatedRecommendations.map((boulder) => (

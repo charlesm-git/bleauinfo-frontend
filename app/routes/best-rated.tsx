@@ -1,10 +1,12 @@
 import type { Route } from "./+types/best-rated";
 import { MainLayout } from "../ui/mainLayout";
-import { GradeBlock } from "~/ui/gradeBlock";
+import { GradeBlock, GradeBlockSkeleton } from "~/ui/gradeBlock";
 import { useEffect, useState } from "react";
 import { GetRequest } from "~/data/data";
 import config from "~/config";
 import { TypoH1 } from "~/ui/typography";
+import { Card, CardContent } from "~/components/ui/card";
+import { MarkdownContent } from "~/ui/markdownContent";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,33 +17,39 @@ export function meta({}: Route.MetaArgs) {
 
 export default function BestRated() {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulders/best-rated/`);
+      setIsLoading(true);
+      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulders/best-rated`);
       setData(sorted_boulders);
+      setIsLoading(false);
     }
     load();
   }, []);
-  if (!data.length) return null;
 
   return (
     <MainLayout>
       <TypoH1>Best rated boulders</TypoH1>
-      <div className="p-4 rounded-md bg-slate-200">
-        <p>
-          This page gather the <strong>best rated boulders.</strong>
-          <br />
-          All boulders that have{" "}
-          <strong>
-            more than 10 publics ratings and a rating above or equal to 4.7/5 are displayed
-          </strong>
-        </p>
-        <p className="italic">The last column shows the number of public ascents logged</p>
-      </div>
-      {data.map((grade_block: Record<string, any>) => (
-        <GradeBlock key={grade_block.grade.id} data={grade_block} />
-      ))}
+      <Card className="bg-secondary mb-8">
+        <CardContent>
+          <MarkdownContent contentKey="best-rated" />
+        </CardContent>
+      </Card>
+      {isLoading ? (
+        <>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <GradeBlockSkeleton key={index} />
+          ))}
+        </>
+      ) : (
+        <>
+          {data.map((grade_block: Record<string, any>) => (
+            <GradeBlock key={grade_block.grade.id} data={grade_block} />
+          ))}
+        </>
+      )}
     </MainLayout>
   );
 }

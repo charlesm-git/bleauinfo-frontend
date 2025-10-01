@@ -13,6 +13,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Link } from "react-router";
 import { Dispatch, SetStateAction } from "react";
+import { Skeleton } from "~/components/ui/skeleton";
 
 interface BoulderItemProps {
   boulder: Record<string, any>;
@@ -103,6 +104,22 @@ export function BoulderCard({
               ))}
             </div>
           )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export function BoulderCardSkeleton() {
+  return (
+    <Card>
+      <CardContent>
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-[100px]" />
+          <Skeleton className="h-4 w-[120px]" />
+          <Skeleton className="h-4 w-[150px]" />
+          <Skeleton className="h-4 w-[200px]" />
         </div>
       </CardContent>
     </Card>

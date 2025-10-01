@@ -15,7 +15,7 @@ export default function Home() {
     <MainLayout>
       <Card className="bg-destructive">
         <CardContent>
-          <MarkdownContent contentKey="home"/>
+          <MarkdownContent contentKey="home" />
         </CardContent>
       </Card>
     </MainLayout>
