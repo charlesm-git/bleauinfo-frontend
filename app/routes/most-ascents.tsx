@@ -45,9 +45,11 @@ export default function MostAscents() {
         </>
       ) : (
         <>
-          {data.map((grade_block: Record<string, any>) => (
-            <GradeBlock key={grade_block.grade.id} data={grade_block} />
-          ))}
+          {data
+            .filter((grade_block: Record<string, any>) => grade_block.boulders.length !== 0)
+            .map((grade_block: Record<string, any>) => (
+              <GradeBlock key={grade_block.grade.id} data={grade_block} />
+            ))}
         </>
       )}
     </MainLayout>

@@ -127,7 +127,7 @@ export default function Recommender() {
       <Accordion type="single" collapsible className="mb-5">
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            <TypoH2 className="mb-0 text-lg border-none">How it works</TypoH2>
+            <TypoH2 className="mb-0 text-lg border-none">How it works?</TypoH2>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance w-full">
             <MarkdownContent contentKey="recommender" />
