@@ -4,14 +4,14 @@ import { TypoH2 } from "./typography";
 
 export function GradeBlock({ data }: { data: Record<string, any> }) {
   return (
-    <div className="my-4">
+    <section id={`grade-${data.grade.value}`} className="my-4 scroll-mt-16">
       <TypoH2>{data.grade.value}</TypoH2>
       <div className="grid grid-cols-3 m-3 gap-3">
         {data.boulders.map((boulder: Record<string, any>) => (
           <BoulderCard key={boulder.id} boulder={boulder} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
