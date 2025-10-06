@@ -5,7 +5,7 @@ export function StarRating({ rating }: { rating: number }) {
     <div className="flex items-center gap-1 max-h-5">
       <div className="relative inline-block w-max">
         {/* Background: empty stars */}
-        <div title={`${rating} / 5`} className="text-gray-300 text-lg">
+        <div title={`${rating} / 5`} className="text-border text-lg">
           ★★★★★
         </div>
 

@@ -17,6 +17,7 @@ import {
 } from "~/components/ui/navigation-menu";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+import { ModeToggle } from "./modeToggle";
 
 interface NavigationComponents {
   title: string;
@@ -98,7 +99,7 @@ function NavMenu() {
             <Link to="/areas">Areas list</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-                <NavigationMenuItem>
+        <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
             <Link to="/recommender">Recommender</Link>
           </NavigationMenuLink>
@@ -149,7 +150,7 @@ function SearchBar() {
           onChange={(e) => setText(e.target.value)}
         />
         <Button type="submit">
-          <Search className=""/>
+          <Search className="" />
         </Button>
       </div>
     </form>
@@ -162,7 +163,10 @@ export function NavBar() {
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between">
           <NavMenu />
-          <SearchBar />
+          <div className="flex gap-4">
+            <SearchBar />
+            <ModeToggle />
+          </div>
         </div>
       </div>
     </nav>
