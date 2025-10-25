@@ -8,6 +8,7 @@ import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
 import { Mountain, Star, TrendingUp } from "lucide-react";
 import { TypoH1, TypoH2, TypoH3 } from "~/ui/typography";
 import { BleauInfoButton } from "~/ui/bleauInfoButton";
+import { formatNumber } from "~/data/helper";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -56,8 +57,12 @@ function AreaStatistics({ data }: { data: Record<string, any> }) {
   return (
     <>
       <div className="grid grid-cols-3 justify-items-center gap-15 max-w-2xl mx-auto mt-8 mb-8">
-        <StatBadge Icon={Mountain} content="Boulders" value={data.number_of_boulders} />
-        <StatBadge Icon={TrendingUp} content="Ascents" value={data.ascents} />
+        <StatBadge
+          Icon={Mountain}
+          content="Boulders"
+          value={formatNumber(data.number_of_boulders)}
+        />
+        <StatBadge Icon={TrendingUp} content="Ascents" value={formatNumber(data.ascents)} />
         <StatBadge Icon={Star} content="Avg Grade" value={data.average_grade.value} />
       </div>
       <ChartWrapper

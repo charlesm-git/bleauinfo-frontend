@@ -96,7 +96,7 @@ function NavMenu() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/areas">Areas list</Link>
+            <Link to="/areas">Areas</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
