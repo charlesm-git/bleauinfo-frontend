@@ -5,10 +5,11 @@ import { StatBadge } from "~/ui/statBadge";
 import { useState } from "react";
 import config from "~/config";
 import { ChartLine, ChartWrapper } from "~/ui/chart";
-import { ChartColumnBig, Star, TrendingUp } from "lucide-react";
+import { Star, TrendingUp } from "lucide-react";
 import { BleauInfoButton } from "~/ui/bleauInfoButton";
 import { TypoH1, TypoH3 } from "~/ui/typography";
 import { Link } from "react-router";
+import { Badge } from "~/components/ui/badge";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -42,25 +43,30 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
 
   return (
     <MainLayout>
-      <div className="flex flex-col mb-4">
+      <div className="flex flex-col mb-4 gap-2">
         <div className="flex flex-row justify-between align-items-center">
-          <TypoH1 className="mb-2">{boulder.name}</TypoH1>
+          <div className="flex gap-8 items-center">
+            <TypoH1 className="mb-2">{boulder.name}</TypoH1>
+            <Badge variant="secondary" className="px-4 py-2 text-base bg-accent">
+              {!boulder.slash_grade
+                ? `${boulder.grade.value}`
+                : `${boulder.grade.value}/${boulder.slash_grade.value}`}
+            </Badge>
+          </div>
           <BleauInfoButton link={boulder.url} />
         </div>
         <TypoH3 className="w-fit text-muted-foreground hover:text-muted">
           <Link to={`/areas/${boulder.area.id}`}>{boulder.area.name}</Link>
         </TypoH3>
+        <div className="flex gap-4">
+          {boulder.styles.map((style: Record<string, string>) => (
+            <Badge variant="outline" className="py-1 px-3 text-sm">
+              {style.style}
+            </Badge>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-3 gap-15 max-w-4xl mx-auto my-8">
-        {!boulder.slash_grade ? (
-          <StatBadge Icon={ChartColumnBig} content="Grade" value={`${boulder.grade.value}`} />
-        ) : (
-          <StatBadge
-            Icon={ChartColumnBig}
-            content="Grade"
-            value={`${boulder.grade.value} / ${boulder.slash_grade.value}`}
-          />
-        )}
+      <div className="grid grid-cols-2 gap-15 max-w-2xl mx-auto my-8 justify-items-center">
         <StatBadge Icon={TrendingUp} content="Ascents" value={boulder.ascents.length} />
         <StatBadge Icon={Star} content="Rating" value={`${boulder.rating}/5`} />
       </div>
