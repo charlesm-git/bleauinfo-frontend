@@ -5,31 +5,29 @@ import { useNavigate } from "react-router";
 import { DataTable } from "./dataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
-export function BoulderTable({ items }: { items: BoulderItem[] }) {
+export function BoulderTableSearch({ boulders }: { boulders: BoulderItem[] }) {
   const navigate = useNavigate();
   return (
     <DataTable
       columns={columns}
-      data={items}
-      onRowClick={(item) => navigate(`/boulders/${item.boulder.id}`)}
+      data={boulders}
+      onRowClick={(boulder) => navigate(`/boulders/${boulder.id}`)}
     />
   );
 }
 
 type BoulderItem = {
-  boulder: {
-    id: string;
-    name: string;
-    grade: { value: string };
-    slash_grade?: { value: string };
-    rating: number;
-  };
-  ascents: number;
+  id: string;
+  name: string;
+  grade: { value: string };
+  area: { name: string };
+  slash_grade?: { value: string };
+  rating: number;
 };
 
 export const columns: ColumnDef<BoulderItem>[] = [
   {
-    accessorKey: "boulder.name",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <div className="flex gap-2 items-center">
@@ -42,11 +40,28 @@ export const columns: ColumnDef<BoulderItem>[] = [
         </div>
       );
     },
-    cell: ({ row }) => row.original.boulder.name,
+    cell: ({ row }) => row.original.name,
+  },
+  {
+    id: "area",
+    accessorFn: (row) => row.area.name,
+    header: ({ column }) => {
+      return (
+        <div className="flex gap-2 items-center">
+          <span>Area</span>
+          <Button
+            variant="sorting"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => row.original.area.name,
   },
   {
     id: "grade",
-    accessorFn: (row) => row.boulder.grade.value,
+    accessorFn: (row) => row.grade.value,
     header: ({ column }) => {
       return (
         <div className="flex gap-2 items-center">
@@ -60,12 +75,13 @@ export const columns: ColumnDef<BoulderItem>[] = [
       );
     },
     cell: ({ row }) => {
-      const { grade, slash_grade } = row.original.boulder;
-      return slash_grade ? `${grade.value}/${slash_grade.value}` : grade.value;
+      return row.original.slash_grade
+        ? `${row.original.grade.value}/${row.original.slash_grade.value}`
+        : row.original.grade.value;
     },
   },
   {
-    accessorKey: "boulder.rating",
+    accessorKey: "rating",
     header: ({ column }) => {
       return (
         <div className="flex gap-2 items-center">
@@ -78,21 +94,6 @@ export const columns: ColumnDef<BoulderItem>[] = [
         </div>
       );
     },
-    cell: ({ row }) => <StarRating rating={row.original.boulder.rating} />,
-  },
-  {
-    accessorKey: "ascents",
-    header: ({ column }) => {
-      return (
-        <div className="flex gap-2 items-center">
-          <span>Number of Ascents</span>
-          <Button
-            variant="sorting"
-            onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}>
-            <ArrowUpDown className="h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    cell: ({ row }) => <StarRating rating={row.original.rating} />,
   },
 ];

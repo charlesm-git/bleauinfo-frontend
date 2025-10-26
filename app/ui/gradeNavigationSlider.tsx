@@ -128,7 +128,7 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, scrollToGrade]);
+  }, [isDragging, scrollToGrade, grades.length]);
 
   // Calculate thumb position
   const thumbPosition = grades.length > 1 ? (activeIndex / (grades.length - 1)) * 100 : 0;

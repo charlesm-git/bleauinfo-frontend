@@ -4,7 +4,7 @@ import { GetRequest } from "~/data/data.js";
 import config from "~/config";
 import { TypoH1, TypoH2 } from "~/ui/typography.js";
 import { AreaBadge } from "~/ui/areaBadge.js";
-import { BoulderTableSearch } from "~/ui/boulderTable.js";
+import { BoulderTableSearch } from "~/ui/BoulderTableSearch.js";
 
 export function meta({}: Route.MetaArgs) {
   return [

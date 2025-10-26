@@ -1,4 +1,4 @@
-**_6th grade don't make sense_** 
+**_6th grades don't make sense_** 
 - There is no reason for an under-representation of "+" grades. 
 - If you ever thought that "+" grades in the 6th range are poorly graded, well it's probably the case.
 
