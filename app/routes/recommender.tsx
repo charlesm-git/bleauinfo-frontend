@@ -87,6 +87,13 @@ export default function Recommender() {
   };
 
   useEffect(() => {
+    const loadMatrices = async () => {
+      await GetRequest(`${config.baseUrl}/recommendation/load-matrices`);
+    };
+    loadMatrices()
+  }, []);
+
+  useEffect(() => {
     if (!text.trim()) {
       setBoulderSuggestions([]);
       return;
