@@ -1,10 +1,10 @@
 import type { Route } from "./+types/search.tsx";
 import { MainLayout } from "../ui/mainLayout";
-import { GetRequest } from "~/data/data.js";
+import { GetRequest } from "~/data/data";
 import config from "~/config";
-import { TypoH1, TypoH2 } from "~/ui/typography.js";
-import { AreaBadge } from "~/ui/areaBadge.js";
-import { BoulderTableSearch } from "~/ui/BoulderTableSearch.js";
+import { TypoH1, TypoH2 } from "~/ui/typography";
+import { AreaBadge } from "~/ui/areaBadge";
+import { BoulderTableSearch } from "~/ui/boulderTableSearch";
 
 export function meta({}: Route.MetaArgs) {
   return [
