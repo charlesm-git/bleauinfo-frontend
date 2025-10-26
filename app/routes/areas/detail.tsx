@@ -83,8 +83,7 @@ function AreaStatistics({ data }: { data: Record<string, any> }) {
           <BoulderTable items={data.best_rated_boulders} />
         ) : (
           <p className="bg-orange-400 p-4 rounded-xl">
-            Unfortunately, no boulder in this area have a rating above 4 and/or enought ascents to
-            make this rating relevant
+            Unfortunately, no boulder in this area have more than 5 ratings.
           </p>
         )}
       </div>
