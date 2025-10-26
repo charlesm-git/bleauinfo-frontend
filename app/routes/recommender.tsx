@@ -86,6 +86,7 @@ export default function Recommender() {
     setIsLoadingRecommendation(false);
   };
 
+  
   useEffect(() => {
     const loadMatrices = async () => {
       await GetRequest(`${config.baseUrl}/recommendation/load-matrices`);
