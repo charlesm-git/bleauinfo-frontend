@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
-import { Link } from "react-router";
 import { Dispatch, SetStateAction } from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -46,10 +45,10 @@ export function BoulderCard({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
-                    <Link to={`/boulders/${boulder.id}`}>
+                    <a href={`/boulders/${boulder.id}`} target="_blank" rel="noopener noreferrer">
                       <BarChart className="h-4 w-4 mr-2" />
                       View statistics
-                    </Link>
+                    </a>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <a href={boulder.url} target="_blank" rel="noopener noreferrer">

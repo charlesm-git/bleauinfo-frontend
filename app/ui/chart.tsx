@@ -34,6 +34,7 @@ import React from "react";
 import { TypoH2 } from "./typography";
 import { MarkdownContent } from "./markdownContent";
 import { ContentKey } from "~/content";
+import { GradeSelector } from "./selector";
 
 interface ChartWrapperProps {
   ChartType: React.ComponentType<ChartProps>;
@@ -46,7 +47,9 @@ interface ChartWrapperProps {
   legendOffset?: number;
   description?: string;
   enableSliding?: boolean;
+  enableGradeSelection?: boolean;
   chartSetData?: (newData: Record<string, any>[]) => void;
+  setGradeSelection?: (newData: string) => void;
   commentContent?: ContentKey;
 }
 
@@ -71,6 +74,7 @@ export function ChartWrapper({
   legendOffset = 0,
   chartSetData,
   enableSliding = false,
+  setGradeSelection,
   commentContent,
 }: ChartWrapperProps) {
   /**
@@ -89,16 +93,21 @@ export function ChartWrapper({
    */
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="">
         <CardTitle>
           <TypoH2>{title}</TypoH2>
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
-        {enableSliding && chartSetData && (
-          <SliderButton data={chartData} onDataChange={chartSetData}></SliderButton>
-        )}
+        <div className="flex flex-1 gap-4 mb-4">
+          {enableSliding && chartSetData ? (
+            <SliderButton data={chartData} onDataChange={chartSetData}></SliderButton>
+          ) : (
+            <div className="flex-1"></div>
+          )}
+          {setGradeSelection && <GradeSelector onValueChange={setGradeSelection} />}
+        </div>
         <ChartType
           chartData={chartData}
           chartConfig={chartConfig}
@@ -136,14 +145,15 @@ export function ChartLine({
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey={dataKeyX}
-          tickLine={false}
+          // axisLine={false}
+          // tickLine={false}
           textAnchor={tickAngle !== 0 ? "end" : "middle"}
-          axisLine={false}
           tickMargin={8}
           angle={tickAngle}
           interval={0}
           // tickFormatter={(value) => value.slice(0, 3)}
         />
+        <YAxis />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         {keys.map((key) => (
           <Line
@@ -293,25 +303,19 @@ export function SliderButton({
   };
 
   return (
-    <div className="justify-items-center mb-2">
-      <div className="flex mb-4">
-        <div className="mx-4">
-          <Button
-            size={buttonSize}
-            onClick={() => slideData("left")}
-            disabled={currentData.length === 0}>
-            <ArrowBigLeft />
-          </Button>
-        </div>
-        <div className="mx-4">
-          <Button
-            size={buttonSize}
-            onClick={() => slideData("right")}
-            disabled={currentData.length === 0}>
-            <ArrowBigRight />
-          </Button>
-        </div>
-      </div>
+    <div className="flex flex-1 justify-center gap-8">
+      <Button
+        size={buttonSize}
+        onClick={() => slideData("left")}
+        disabled={currentData.length === 0}>
+        <ArrowBigLeft />
+      </Button>
+      <Button
+        size={buttonSize}
+        onClick={() => slideData("right")}
+        disabled={currentData.length === 0}>
+        <ArrowBigRight />
+      </Button>
     </div>
   );
 }

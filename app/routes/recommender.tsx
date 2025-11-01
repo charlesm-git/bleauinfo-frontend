@@ -66,6 +66,7 @@ export default function Recommender() {
     setText("");
   };
 
+  // Function calling API for recommendation
   const getRecommendations = async () => {
     if (bouldersSelected.length === 0) {
       toast.info("Select some boulders first", {
@@ -86,6 +87,7 @@ export default function Recommender() {
     setIsLoadingRecommendation(false);
   };
 
+  // Load of recommendation matrices on page loading
   useEffect(() => {
     const loadMatrices = async () => {
       await GetRequest(`${config.baseUrl}/recommendation/load-matrices`);
@@ -93,6 +95,7 @@ export default function Recommender() {
     loadMatrices()
   }, []);
 
+  // Get boulder selection filtering on text update (for dynamic search recommendation)
   useEffect(() => {
     if (!text.trim()) {
       setBoulderSuggestions([]);
@@ -116,7 +119,7 @@ export default function Recommender() {
     <MainLayout>
       <div className="flex gap-5 items-end justify-center mb-6">
         {/* Title with tooltip */}
-        <TypoH1 className="mb-0">Recommender</TypoH1>
+        <TypoH1 className="mb-0">Boulder recommender</TypoH1>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button size="icon" variant="ghost">

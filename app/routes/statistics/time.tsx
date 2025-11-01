@@ -14,28 +14,43 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function TimeStatistics() {
-  const [monthlyAscentsData, setMonthlyAscentsData] = useState<Record<string, any>[]>([]);
-  const [yearlyAscentsData, setYearlyAscentsData] = useState<Record<string, any>[]>([]);
+  const [monthlyAscentsData, setMonthAscentsData] = useState<Record<string, any>[]>([]);
+  const [yearAscentsData, setYearAscentsData] = useState<Record<string, any>[]>([]);
+  const [monthGradeSelection, setMonthGradeSelection] = useState<string>();
+  const [yearGradeSelection, setYearGradeSelection] = useState<string>();
 
   useEffect(() => {
     async function load() {
-      const monthAscents = await GetRequest(`${config.baseUrl}/stats/time/ascent/per-month`);
-      setMonthlyAscentsData(monthAscents);
+      let params = new URLSearchParams();
+      if (monthGradeSelection && monthGradeSelection !== "All") {
+        params.append("grade", monthGradeSelection);
+      }
+      const monthAscents = await GetRequest(
+        `${config.baseUrl}/stats/time/ascent/per-month?${params}`
+      );
+      setMonthAscentsData(monthAscents);
     }
     load();
-  }, []);
+  }, [monthGradeSelection]);
 
   useEffect(() => {
     async function load() {
-      const yearAscents = await GetRequest(`${config.baseUrl}/stats/time/ascent/per-year`);
-      setYearlyAscentsData(yearAscents);
+      let params = new URLSearchParams();
+      if (yearGradeSelection && yearGradeSelection !== "All") {
+        params.append("grade", yearGradeSelection);
+      }
+
+      const yearAscents = await GetRequest(
+        `${config.baseUrl}/stats/time/ascent/per-year?${params}`
+      );
+      setYearAscentsData(yearAscents);
     }
     load();
-  }, []);
+  }, [yearGradeSelection]);
 
   const monthlyChartConfig = {
     percentage: {
-      label: "Percentage",
+      label: "%",
       color: "var(--chart-1)",
     },
   };
@@ -57,22 +72,24 @@ export default function TimeStatistics() {
           chartData={monthlyAscentsData}
           dataKeyX="month"
           title="Pourcentage of ascents per month"
-          chartSetData={setMonthlyAscentsData}
+          chartSetData={setMonthAscentsData}
           enableSliding={true}
-          margin={{ right: 50, left: 50, bottom: 20 }}
+          margin={{ right: 50, left: 20, bottom: 20 }}
           commentContent="statistics.time.month"
+          setGradeSelection={setMonthGradeSelection}
         />
         <ChartWrapper
           ChartType={ChartLine}
           chartConfig={yearlyChartConfig}
-          chartData={yearlyAscentsData}
+          chartData={yearAscentsData}
           dataKeyX="year"
           title="Number of ascents per year"
-          description="Total number of ascents logged per year, all grades and areas taken into account"
+          description="Total number of ascents logged per year"
           tickAngle={-40}
           legendOffset={9}
-          margin={{ right: 20, left: 20, bottom: 20 }}
+          margin={{ right: 50, left: 20, bottom: 20 }}
           commentContent="statistics.time.year"
+          setGradeSelection={setYearGradeSelection}
         />
       </div>
     </MainLayout>
