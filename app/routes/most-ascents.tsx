@@ -30,7 +30,7 @@ export default function MostAscents() {
   useEffect(() => {
     async function load() {
       setIsLoading(true);
-      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulders/most-ascents`);
+      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulder/most-ascents`);
       setData(sorted_boulders);
       setIsLoading(false);
     }

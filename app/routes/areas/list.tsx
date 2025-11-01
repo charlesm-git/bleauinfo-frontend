@@ -19,7 +19,7 @@ export default function AreasList() {
 
   useEffect(() => {
     async function load() {
-      const regionsData = await GetRequest(`${config.baseUrl}/regions`);
+      const regionsData = await GetRequest(`${config.baseUrl}/region`);
       SetRegions(regionsData);
     }
     load();

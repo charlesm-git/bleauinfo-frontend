@@ -19,7 +19,7 @@ export default function TimeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const monthAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-month`);
+      const monthAscents = await GetRequest(`${config.baseUrl}/stats/time/ascent/per-month`);
       setMonthlyAscentsData(monthAscents);
     }
     load();
@@ -27,7 +27,7 @@ export default function TimeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const yearAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-year`);
+      const yearAscents = await GetRequest(`${config.baseUrl}/stats/time/ascent/per-year`);
       setYearlyAscentsData(yearAscents);
     }
     load();

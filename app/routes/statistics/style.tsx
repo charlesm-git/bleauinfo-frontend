@@ -19,7 +19,7 @@ export default function StyleStatistics() {
   useEffect(() => {
     async function load() {
       const stylesDistribution = await GetRequest(
-        `${config.baseUrl}/stats/boulders/styles/distribution`
+        `${config.baseUrl}/stats/style/distribution`
       );
       setStyleData(stylesDistribution);
     }

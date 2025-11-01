@@ -30,7 +30,7 @@ export default function BestRated() {
   useEffect(() => {
     async function load() {
       setIsLoading(true);
-      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulders/best-rated`);
+      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulder/best-rated`);
       setData(sorted_boulders);
       setIsLoading(false);
     }

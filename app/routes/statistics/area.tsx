@@ -15,19 +15,35 @@ export function meta({}: Route.MetaArgs) {
 
 export default function AreaStatistics() {
   const [areaAscentsData, setAreaAscentsData] = useState<Record<string, any>[]>([]);
+  const [areaBouldersData, setAreaBouldersData] = useState<Record<string, any>[]>([]);
 
   useEffect(() => {
     async function load() {
-      const areaAscents = await GetRequest(`${config.baseUrl}/stats/areas/most-ascents`);
+      const areaAscents = await GetRequest(`${config.baseUrl}/stats/area/most-ascents`);
       setAreaAscentsData(areaAscents);
     }
     load();
   }, []);
 
-  const areaChartConfig = {
-    ascents: {
+  useEffect(() => {
+    async function load() {
+      const areaBoulders = await GetRequest(`${config.baseUrl}/stats/area/most-boulders`);
+      setAreaBouldersData(areaBoulders);
+    }
+    load();
+  }, []);
+
+  const areaAscentsChartConfig = {
+    count: {
       label: "Ascents",
       color: "var(--chart-1)",
+    },
+  };
+
+  const areaBouldersChartConfig = {
+    count: {
+      label: "Boulders",
+      color: "var(--chart-2)",
     },
   };
   return (
@@ -36,11 +52,21 @@ export default function AreaStatistics() {
       <ChartWrapper
         ChartType={ChartBarVertical}
         chartData={areaAscentsData}
-        chartConfig={areaChartConfig}
+        chartConfig={areaAscentsChartConfig}
         dataKeyX="area.name"
         title="Top 10 areas with the most registered ascents"
         tickAngle={-30}
-        commentContent="statistics.area"
+        commentContent="statistics.area.ascent"
+        legendOffset={12}
+      />
+      <ChartWrapper
+        ChartType={ChartBarVertical}
+        chartData={areaBouldersData}
+        chartConfig={areaBouldersChartConfig}
+        dataKeyX="area.name"
+        title="Top 10 areas with the most boulders"
+        tickAngle={-30}
+        commentContent="statistics.area.boulder"
         legendOffset={12}
       />
     </MainLayout>

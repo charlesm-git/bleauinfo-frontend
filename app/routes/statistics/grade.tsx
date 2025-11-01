@@ -19,7 +19,7 @@ export default function GradeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeDistribution = await GetRequest(`${config.baseUrl}/stats/grades/distribution`);
+      const gradeDistribution = await GetRequest(`${config.baseUrl}/stats/grade/distribution`);
       setGradeDistributionData(gradeDistribution);
     }
     load();
@@ -27,7 +27,7 @@ export default function GradeStatistics() {
 
   useEffect(() => {
     async function load() {
-      const gradeAscents = await GetRequest(`${config.baseUrl}/stats/ascents/per-grade`);
+      const gradeAscents = await GetRequest(`${config.baseUrl}/stats/grade/ascent`);
       setGradeAscentsData(gradeAscents);
     }
     load();

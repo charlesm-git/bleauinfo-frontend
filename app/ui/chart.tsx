@@ -73,6 +73,20 @@ export function ChartWrapper({
   enableSliding = false,
   commentContent,
 }: ChartWrapperProps) {
+  /**
+   * Chart Wrapper
+   * @param:
+   * ChartType - Type of chart to use. Should input the component type directly
+   * chartData - Data to display
+   * chartConfig - Setup the colors and labels to use in the chart.
+   * The main keys have to fit the content of the JSON input in chartData
+   * dataKeyX - value used on X axis
+   * title - Title of the chart
+   * description - Description of the chart
+   * chartSetData - setData associated to chartData. Necessary only for sliding charts
+   * enableSliding - Turns on the sliding option. Require chartSetData to be provided to work
+   * commentContent - key used for MD content to display. List of keys available in /content/index.ts
+   */
   return (
     <Card>
       <CardHeader>

@@ -23,7 +23,7 @@ interface BoulderParams {
 }
 
 export async function loader({ params }: { params: BoulderParams }) {
-  let data = await GetRequest(`${config.baseUrl}/boulders/${params.boulderId}`);
+  let data = await GetRequest(`${config.baseUrl}/boulder/${params.boulderId}`);
   return data;
 }
 

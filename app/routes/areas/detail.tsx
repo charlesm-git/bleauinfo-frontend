@@ -18,7 +18,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let data = await GetRequest(`${config.baseUrl}/areas/${params.areaId}/stats`);
+  let data = await GetRequest(`${config.baseUrl}/area/${params.areaId}/stats`);
   return data;
 }
 
