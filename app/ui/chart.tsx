@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import {
   Area,
