@@ -1,8 +1,8 @@
 import { Card, CardContent } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { BarChart, ExternalLink, MoreVertical, Plus, TrendingUp } from "lucide-react";
-import { StarRating } from "./starRating";
-import { TypoH3 } from "./typography";
+import { StarRating } from "./StarRating";
+import { TypoH3 } from "./Typography";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +26,7 @@ export function BoulderCard({
   onAddToSelection,
 }: BoulderItemProps) {
   return (
-    <Card className="flex-1 hover:shadow-lg transition-shadow relative">
+    <Card className="flex-1 hover:shadow-lg transition-shadow relative h-full">
       <CardContent className="">
         {/* Single column vertical layout */}
         <div className="flex flex-col gap-3">

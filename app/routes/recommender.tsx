@@ -1,25 +1,24 @@
 import type { Route } from "./+types/home";
-import { MainLayout } from "../ui/mainLayout";
+import { MainLayout } from "../ui/MainLayout";
 import { useEffect, useState } from "react";
 
 import { Command, CommandInput, CommandList, CommandItem } from "~/components/ui/command";
 import { GetRequest, PostRequest as PostRequestRecommendation } from "~/data/data";
 import config from "~/config";
 import { Button } from "~/components/ui/button";
-import { Info, X } from "lucide-react";
-import { BoulderCard, BoulderCardSkeleton } from "~/ui/boulderCard";
-import { TypoH1, TypoH2, TypoP } from "~/ui/typography";
-import { BoulderBadge } from "~/ui/boulderBadge";
-import { PaginationControl } from "~/ui/paginationControl";
+import { X } from "lucide-react";
+import { BoulderCard, BoulderCardSkeleton } from "~/ui/BoulderCard";
+import { TypoH1, TypoH2 } from "~/ui/Typography";
+import { BoulderBadge } from "~/ui/BoulderBadge";
+import { PaginationControl } from "~/ui/PaginationControl";
 import { toast, Toaster } from "sonner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { MarkdownContent } from "~/ui/markdownContent";
+import { MarkdownContent } from "~/ui/MarkdownContent";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -92,7 +91,7 @@ export default function Recommender() {
     const loadMatrices = async () => {
       await GetRequest(`${config.baseUrl}/recommendation/load-matrices`);
     };
-    loadMatrices()
+    loadMatrices();
   }, []);
 
   // Get boulder selection filtering on text update (for dynamic search recommendation)
@@ -118,20 +117,8 @@ export default function Recommender() {
   return (
     <MainLayout>
       <div className="flex gap-5 items-end justify-center mb-6">
-        {/* Title with tooltip */}
+        {/* Title*/}
         <TypoH1 className="mb-0">Boulder recommender</TypoH1>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
-              <Info />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <TypoP className="text-sm">
-              Find boulders similar to ones you've climbed based on ascents, styles, and grades.
-            </TypoP>
-          </TooltipContent>
-        </Tooltip>
       </div>
       {/* Description Accordion */}
       <Accordion type="single" collapsible className="mb-5">
@@ -163,7 +150,7 @@ export default function Recommender() {
           {boulderSuggestions.map((boulder: Record<string, any>) => (
             <CommandItem
               key={boulder.id}
-              className="mx-2 my-1 flex flex-row gap-8 p-2 mt-2 cursor-pointer"
+              className="mx-2 my-1 flex flex-row  mt-2 cursor-pointer"
               onSelect={() => selectBoulder(boulder)}>
               <span className="font-bold">{boulder.name}</span>
               {boulder.slash_grade ? (
@@ -204,7 +191,7 @@ export default function Recommender() {
           <TypoH2>
             Recommendations: {currentPage}/{totalPages}
           </TypoH2>
-          <div className="grid grid-cols-2 m-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 m-3 gap-3">
             {Array.from({ length: 10 }).map((_, index) => (
               <BoulderCardSkeleton key={index} />
             ))}
@@ -216,7 +203,7 @@ export default function Recommender() {
           <TypoH2>
             Recommendations: {currentPage}/{totalPages}
           </TypoH2>
-          <div className="grid grid-cols-2 m-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 m-3 gap-3">
             {paginatedRecommendations.map((boulder) => (
               <a href={`/boulders/${boulder.id}`} target="_blank" rel="noopener noreferrer">
                 <BoulderCard

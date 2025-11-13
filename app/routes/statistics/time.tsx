@@ -1,10 +1,10 @@
 import type { Route } from "./+types/time";
-import { MainLayout } from "../../ui/mainLayout";
+import { MainLayout } from "../../ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartLine, ChartWrapper } from "~/ui/chart";
-import { TypoH1 } from "~/ui/typography";
+import { ChartLine, ChartWrapper } from "~/ui/Chart";
+import { TypoH1 } from "~/ui/Typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -74,7 +74,10 @@ export default function TimeStatistics() {
           title="Pourcentage of ascents per month"
           chartSetData={setMonthAscentsData}
           enableSliding={true}
-          margin={{ right: 50, left: 20, bottom: 20 }}
+          margin={{ top: 20, bottom: 20, right: 50, left: 20 }}
+          marginMobile={{ top: 10, bottom: 0, right: 5, left: 5 }}
+          tickAngleMobile={-90}
+          tickFormatterMobile={(value) => value.slice(0, 3)}
           commentContent="statistics.time.month"
           setGradeSelection={setMonthGradeSelection}
         />
@@ -86,8 +89,12 @@ export default function TimeStatistics() {
           title="Number of ascents per year"
           description="Total number of ascents logged per year"
           tickAngle={-40}
-          legendOffset={9}
-          margin={{ right: 50, left: 20, bottom: 20 }}
+          legendOffset={4}
+          legendOffsetMobile={2}
+          margin={{ top: 20, bottom: 20, right: 50, left: 20 }}
+          marginMobile={{ top: 10, bottom: 0, right: 5, left: 5 }}
+          intervalMobile={1}
+          tickAngleMobile={-90}
           commentContent="statistics.time.year"
           setGradeSelection={setYearGradeSelection}
         />

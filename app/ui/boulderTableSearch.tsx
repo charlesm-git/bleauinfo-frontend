@@ -1,8 +1,8 @@
-import { StarRating } from "./starRating";
+import { StarRating } from "./StarRating";
 import { Button } from "~/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { useNavigate } from "react-router";
-import { DataTable } from "./dataTable";
+import { DataTable } from "./DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 export function BoulderTableSearch({ boulders }: { boulders: BoulderItem[] }) {
@@ -35,7 +35,7 @@ export const columns: ColumnDef<BoulderItem>[] = [
           <Button
             variant="sorting"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown className="h-2 w-2 md:h-4 md:w-4" />
           </Button>
         </div>
       );
@@ -47,12 +47,13 @@ export const columns: ColumnDef<BoulderItem>[] = [
     accessorFn: (row) => row.area.name,
     header: ({ column }) => {
       return (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-1 md:gap-2 items-center">
           <span>Area</span>
           <Button
             variant="sorting"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            <ArrowUpDown className="h-4 w-4" />
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            size="sm">
+            <ArrowUpDown className="h-2 w-2 md:h-4 md:w-4" />
           </Button>
         </div>
       );
@@ -69,7 +70,7 @@ export const columns: ColumnDef<BoulderItem>[] = [
           <Button
             variant="sorting"
             onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}>
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown className="h-2 w-2 md:h-4 md:w-4" />
           </Button>
         </div>
       );
@@ -89,7 +90,7 @@ export const columns: ColumnDef<BoulderItem>[] = [
           <Button
             variant="sorting"
             onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}>
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown className="h-2 w-2 md:h-4 md:w-4" />
           </Button>
         </div>
       );

@@ -1,10 +1,10 @@
 import type { Route } from "./+types/style";
-import { MainLayout } from "../../ui/mainLayout";
+import { MainLayout } from "../../ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
-import { TypoH1 } from "~/ui/typography";
+import { ChartBarVertical, ChartWrapper } from "~/ui/Chart";
+import { TypoH1 } from "~/ui/Typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,9 +18,7 @@ export default function StyleStatistics() {
 
   useEffect(() => {
     async function load() {
-      const stylesDistribution = await GetRequest(
-        `${config.baseUrl}/stats/style/distribution`
-      );
+      const stylesDistribution = await GetRequest(`${config.baseUrl}/stats/style/distribution`);
       setStyleData(stylesDistribution);
     }
     load();
@@ -44,6 +42,7 @@ export default function StyleStatistics() {
         title="Style repartition"
         description="Repartition of all the styles in the entire forest"
         tickAngle={-50}
+        tickAngleMobile={-90}
         legendOffset={12}
         commentContent="statistics.style"
       />

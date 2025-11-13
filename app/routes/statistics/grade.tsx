@@ -1,10 +1,10 @@
 import type { Route } from "./+types/grade";
-import { MainLayout } from "../../ui/mainLayout";
+import { MainLayout } from "../../ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
-import { TypoH1 } from "~/ui/typography";
+import { ChartBarVertical, ChartWrapper } from "~/ui/Chart";
+import { TypoH1 } from "~/ui/Typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -43,33 +43,67 @@ export default function GradeStatistics() {
   const gradeAscentsChartConfig = {
     ascents: {
       label: "Ascents",
-      color: "var(--chart-1)",
+      color: "var(--chart-2)",
     },
   };
 
   return (
-    <MainLayout>
-      <div className="flex flex-col gap-6">
-        <TypoH1>Grade Analytics</TypoH1>
-        <ChartWrapper
-          ChartType={ChartBarVertical}
-          chartData={gradeDistributionData}
-          chartConfig={gradeDistributionChartConfig}
-          dataKeyX="grade.value"
-          title="Grade Distribution"
-          description="Repartition of the boulders across the grades"
-          commentContent="statistics.grade.distribution"
-        />
-        <ChartWrapper
-          ChartType={ChartBarVertical}
-          chartData={gradeAscentsData}
-          chartConfig={gradeAscentsChartConfig}
-          dataKeyX="grade.value"
-          title="Ascent distribution per grade"
-          description="Repartition of the ascents across the grades"
-          commentContent="statistics.grade.ascent"
-        />
-      </div>
+    <MainLayout className="flex flex-col gap-6">
+      <TypoH1>Grade Analytics</TypoH1>
+      <ChartWrapper
+        ChartType={ChartBarVertical}
+        chartData={gradeDistributionData}
+        chartConfig={gradeDistributionChartConfig}
+        dataKeyX="grade.value"
+        title="Grade Distribution"
+        description="Repartition of the boulders across the grades"
+        commentContent="statistics.grade.distribution"
+        marginMobile={{ top: 0, bottom: 0, right: 5, left: 5 }}
+        ticksMobile={[
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+        ]}
+      />
+      <ChartWrapper
+        ChartType={ChartBarVertical}
+        chartData={gradeAscentsData}
+        chartConfig={gradeAscentsChartConfig}
+        dataKeyX="grade.value"
+        title="Ascent distribution per grade"
+        description="Repartition of the ascents across the grades"
+        commentContent="statistics.grade.ascent"
+        marginMobile={{ top: 0, bottom: 0, right: 5, left: 5 }}
+        ticksMobile={[
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+        ]}
+      />
     </MainLayout>
   );
 }

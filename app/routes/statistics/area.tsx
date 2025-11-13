@@ -1,10 +1,10 @@
 import type { Route } from "./+types/area";
-import { MainLayout } from "../../ui/mainLayout";
+import { MainLayout } from "../../ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
-import { TypoH1 } from "~/ui/typography";
+import { ChartBarVertical, ChartWrapper } from "~/ui/Chart";
+import { TypoH1 } from "~/ui/Typography";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -47,7 +47,7 @@ export default function AreaStatistics() {
     },
   };
   return (
-    <MainLayout>
+    <MainLayout className="flex flex-col gap-6">
       <TypoH1>Area Analytics</TypoH1>
       <ChartWrapper
         ChartType={ChartBarVertical}
@@ -55,9 +55,12 @@ export default function AreaStatistics() {
         chartConfig={areaAscentsChartConfig}
         dataKeyX="area.name"
         title="Top 10 areas with the most registered ascents"
-        tickAngle={-30}
         commentContent="statistics.area.ascent"
+        tickAngle={-30}
         legendOffset={12}
+        marginMobile={{ top: 0, bottom: 0, right: 0, left: 0 }}
+        tickAngleMobile={-90}
+        legendOffsetMobile={16}
       />
       <ChartWrapper
         ChartType={ChartBarVertical}
@@ -65,9 +68,12 @@ export default function AreaStatistics() {
         chartConfig={areaBouldersChartConfig}
         dataKeyX="area.name"
         title="Top 10 areas with the most boulders"
-        tickAngle={-30}
         commentContent="statistics.area.boulder"
+        tickAngle={-30}
         legendOffset={12}
+        marginMobile={{ top: 0, bottom: 0, right: 0, left: 0 }}
+        tickAngleMobile={-90}
+        legendOffsetMobile={12}
       />
     </MainLayout>
   );

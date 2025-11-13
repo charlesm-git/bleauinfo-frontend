@@ -1,10 +1,10 @@
 import type { Route } from "./+types/search.tsx";
-import { MainLayout } from "../ui/mainLayout";
+import { MainLayout } from "../ui/MainLayout.js";
 import { GetRequest } from "~/data/data";
 import config from "~/config";
-import { TypoH1, TypoH2 } from "~/ui/typography";
-import { AreaBadge } from "~/ui/areaBadge";
-import { BoulderTableSearch } from "~/ui/boulderTableSearch";
+import { TypoH1, TypoH2 } from "~/ui/Typography.js";
+import { AreaBadge } from "~/ui/AreaBadge.js";
+import { BoulderTableSearch } from "~/ui/BoulderTableSearch.js";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,8 +30,9 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
   return (
     <MainLayout>
-      <TypoH1>
-        Search result for: <span className="text-primary">{searchText}</span>
+      <TypoH1 className="flex flex-col">
+        <span>Search result for: </span>
+        <span className="text-primary break-words">{searchText}</span>
       </TypoH1>
       {boulders.length === 0 && areas.length === 0 && (
         <TypoH2 className="text-center text-muted-foreground border-none">No result found</TypoH2>

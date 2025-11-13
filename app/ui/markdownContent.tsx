@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import { ContentKey, getContent } from "~/content";
-import { TypoH1, TypoH2, TypoH3, TypoP } from "./typography";
+import { TypoH1, TypoH2, TypoH3, TypoP } from "./Typography";
 
 export function MarkdownContent({ contentKey }: { contentKey: ContentKey }) {
   return (

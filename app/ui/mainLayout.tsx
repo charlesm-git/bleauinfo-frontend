@@ -7,5 +7,5 @@ export function MainLayout({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <main className={cn("w-5xl mx-auto mb-16 flex-1", className)}>{children}</main>;
+  return <main className={cn("w-full px-4 md:w-2xl lg:w-3xl xl:w-5xl mx-auto mb-16 flex-1", className)}>{children}</main>;
 }

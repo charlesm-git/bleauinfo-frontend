@@ -45,7 +45,7 @@ export function GradeSelector({ onValueChange }: { onValueChange: (newData: stri
   ];
   return (
     <Select onValueChange={onValueChange}>
-      <SelectTrigger className="w-[100px]">
+      <SelectTrigger className="w-[100px] lg:w-[100px]">
         <SelectValue placeholder="Grade" />
       </SelectTrigger>
       <SelectContent>

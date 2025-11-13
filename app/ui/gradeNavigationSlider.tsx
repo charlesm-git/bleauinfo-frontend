@@ -1,4 +1,6 @@
+import { ChevronLeft } from "lucide-react";
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 
 interface Grade {
   id: string;
@@ -163,7 +165,9 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
   return (
     <div className={`flex items-center gap-4 ${className}`}>
       {/* Labels */}
-      <div className="relative w-10 flex flex-col justify-between" style={{ height: 'calc(100vh - 10rem)' }}>
+      <div
+        className="relative w-10 flex flex-col justify-between"
+        style={{ height: "calc(100vh - 10rem)" }}>
         {grades.map((grade, index) => {
           const isVisible = visibleLabels.includes(index);
           const isActive = index === activeIndex;
@@ -204,7 +208,8 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
         <div
           ref={trackRef}
           onClick={handleTrackClick}
-          className="relative w-1 bg-secondary rounded-full cursor-pointer" style={{ height: 'calc(100vh - 10rem)' }}>
+          className="relative w-1 bg-secondary rounded-full cursor-pointer"
+          style={{ height: "calc(100vh - 10rem)" }}>
           {/* Active track portion */}
           <div
             className="absolute top-0 left-0 w-full bg-primary rounded-full transition-all duration-300"
@@ -235,3 +240,37 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
     </div>
   );
 };
+
+export function GradeNavigationWrapper({ grades }: { grades: Grade[] }) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  return (
+    <>
+      {/* Desktop: always visible */}
+      <aside className="hidden md:block">
+        <div className="sticky top-26">
+          <GradeNavigationSlider grades={grades} />
+        </div>
+      </aside>
+
+      {/* Mobile: slide-out sheet */}
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetTrigger
+          asChild
+          className={`md:hidden fixed right-0 top-1/2 -translate-y-1/2 z-40 transition-opacity ${isSheetOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+          <button className="bg-primary/80 text-primary-foreground p-2 rounded-l-md shadow-lg hover:bg-primary transition-colors">
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+        </SheetTrigger>
+        <SheetContent
+          side="right"
+          className="w-auto bg-primary/10 border-none shadow-none p-0 flex items-end justify-end pointer-events-none"
+          overlayClassName="bg-transparent">
+          <div className="pointer-events-auto mb-12 mr-4">
+            <GradeNavigationSlider grades={grades} />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+}

@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { AreaBadge } from "./areaBadge";
+import { AreaBadge } from "./AreaBadge";
 
 export function RegionsAccordion({ regions }: { regions: Record<string, any>[] }) {
   return (

@@ -1,8 +1,8 @@
-import { StarRating } from "./starRating";
+import { StarRating } from "./StarRating";
 import { Button } from "~/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { useNavigate } from "react-router";
-import { DataTable } from "./dataTable";
+import { DataTable } from "./DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 export function BoulderTable({ items }: { items: BoulderItem[] }) {

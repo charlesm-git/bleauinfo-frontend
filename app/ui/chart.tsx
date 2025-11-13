@@ -30,11 +30,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/components/ui/chart";
-import React from "react";
-import { TypoH2 } from "./typography";
-import { MarkdownContent } from "./markdownContent";
+import React, { useEffect, useState } from "react";
+import { TypoH2 } from "./Typography";
+import { MarkdownContent } from "./MarkdownContent";
 import { ContentKey } from "~/content";
-import { GradeSelector } from "./selector";
+import { GradeSelector } from "./Selector";
 
 interface ChartWrapperProps {
   ChartType: React.ComponentType<ChartProps>;
@@ -43,13 +43,20 @@ interface ChartWrapperProps {
   dataKeyX: string;
   title: string;
   tickAngle?: number;
+  tickAngleMobile?: number;
   margin?: Record<string, number>;
+  marginMobile?: Record<string, number>;
   legendOffset?: number;
+  legendOffsetMobile?: number;
+  interval?: number | "preserveStart" | "preserveEnd";
+  intervalMobile?: number | "preserveStart" | "preserveEnd";
+  ticksMobile?: string[];
   description?: string;
   enableSliding?: boolean;
   enableGradeSelection?: boolean;
   chartSetData?: (newData: Record<string, any>[]) => void;
   setGradeSelection?: (newData: string) => void;
+  tickFormatterMobile?: (value: any) => string;
   commentContent?: ContentKey;
 }
 
@@ -57,9 +64,13 @@ interface ChartProps {
   chartData: Record<string, any>[];
   chartConfig: ChartConfig;
   dataKeyX: string;
-  tickAngle?: number;
-  margin?: Record<string, number>;
-  legendOffset?: number;
+  margin: Record<string, number>;
+  isMobile: boolean;
+  tickAngle: number;
+  legendOffset: number;
+  interval: number | "preserveStart" | "preserveEnd";
+  ticksMobile?: string[];
+  tickFormatterMobile?: (value: any) => string;
 }
 
 export function ChartWrapper({
@@ -70,11 +81,18 @@ export function ChartWrapper({
   title,
   description,
   tickAngle = 0,
+  tickAngleMobile,
   margin = { top: 20, bottom: 20, right: 20, left: 20 },
+  marginMobile,
   legendOffset = 0,
+  legendOffsetMobile,
+  interval = 0,
+  intervalMobile,
+  ticksMobile,
   chartSetData,
   enableSliding = false,
   setGradeSelection,
+  tickFormatterMobile,
   commentContent,
 }: ChartWrapperProps) {
   /**
@@ -91,18 +109,31 @@ export function ChartWrapper({
    * enableSliding - Turns on the sliding option. Require chartSetData to be provided to work
    * commentContent - key used for MD content to display. List of keys available in /content/index.ts
    */
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 430px)");
+    setIsMobile(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   return (
     <Card>
       <CardHeader className="">
         <CardTitle>
-          <TypoH2>{title}</TypoH2>
+          <TypoH2 className="mb-0">{title}</TypoH2>
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>
-        <div className="flex flex-1 gap-4 mb-4">
+        <div className="flex flex-1 gap-4 items-center">
           {enableSliding && chartSetData ? (
-            <SliderButton data={chartData} onDataChange={chartSetData}></SliderButton>
+            <SliderButton
+              data={chartData}
+              onDataChange={chartSetData}
+              buttonSize={isMobile ? "sm" : "lg"}></SliderButton>
           ) : (
             <div className="flex-1"></div>
           )}
@@ -112,9 +143,13 @@ export function ChartWrapper({
           chartData={chartData}
           chartConfig={chartConfig}
           dataKeyX={dataKeyX}
-          margin={margin}
-          tickAngle={tickAngle}
-          legendOffset={legendOffset}
+          margin={isMobile && marginMobile ? marginMobile : margin}
+          tickAngle={isMobile && tickAngleMobile ? tickAngleMobile : tickAngle}
+          legendOffset={isMobile && legendOffsetMobile ? legendOffsetMobile : legendOffset}
+          interval={isMobile && intervalMobile ? intervalMobile : interval}
+          isMobile={isMobile}
+          {...(ticksMobile && { ticksMobile: ticksMobile })}
+          {...(tickFormatterMobile && isMobile && { tickFormatterMobile })}
         />
       </CardContent>
       {commentContent && (
@@ -134,26 +169,29 @@ export function ChartLine({
   chartConfig,
   dataKeyX,
   legendOffset,
-  margin = { top: 20, bottom: 20, right: 20, left: 20 },
-  tickAngle = 0,
+  margin,
+  interval,
+  tickAngle,
+  isMobile,
+  tickFormatterMobile,
 }: ChartProps) {
   const keys = Object.keys(chartConfig);
 
   return (
-    <ChartContainer config={chartConfig} className="h-[400px] w-full">
+    <ChartContainer config={chartConfig} className="w-full aspect-1/1 md:aspect-video">
       <LineChart accessibilityLayer data={chartData} height={100} margin={margin}>
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey={dataKeyX}
-          // axisLine={false}
-          // tickLine={false}
           textAnchor={tickAngle !== 0 ? "end" : "middle"}
           tickMargin={8}
           angle={tickAngle}
-          interval={0}
-          // tickFormatter={(value) => value.slice(0, 3)}
+          interval={interval}
+          tick={isMobile ? { fontSize: 8 } : { fontSize: 12 }}
+          {...(tickFormatterMobile && { tickFormatter: tickFormatterMobile })}
+          dx={tickAngle === -90 ? -3 : 0}
         />
-        <YAxis />
+        {!isMobile && <YAxis />}
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         {keys.map((key) => (
           <Line
@@ -162,7 +200,7 @@ export function ChartLine({
             type="monotone"
             stroke={`var(--color-${key})`}
             strokeWidth={2}
-            dot={true}
+            dot={isMobile ? { r: 2 } : true}
             isAnimationActive={false}
           />
         ))}
@@ -180,27 +218,31 @@ export function ChartBarVertical({
   chartConfig,
   dataKeyX,
   legendOffset,
-  margin = { top: 20, bottom: 20, right: 20, left: 20 },
+  margin,
+  interval,
+  isMobile,
+  ticksMobile,
   tickAngle = 0,
 }: ChartProps) {
   const keys = Object.keys(chartConfig);
 
   return (
-    <ChartContainer config={chartConfig} className="h-[400px] w-full">
+    <ChartContainer config={chartConfig} className="w-full aspect-2/3 md:aspect-video">
       <BarChart accessibilityLayer data={chartData} layout="horizontal" margin={margin}>
         <CartesianGrid vertical={false} />
         <XAxis
           dataKey={dataKeyX}
           textAnchor={tickAngle !== 0 ? "end" : "middle"}
-          interval={0}
+          {...(ticksMobile && isMobile ? { ticks: ticksMobile, interval: 0 } : { interval })}
           padding={{ left: 0, right: 0 }}
           tickLine={false}
           tickMargin={5}
-          tick={{ fontSize: 12 }}
+          tick={isMobile ? { fontSize: 8 } : { fontSize: 12 }}
           angle={tickAngle}
           axisLine={false}
+          dx={tickAngle === -90 ? -4 : 0}
         />
-        <YAxis axisLine={false} tickLine={false} tickCount={10} />
+        {!isMobile && <YAxis axisLine={false} tickLine={false} tickCount={10} />}
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
         {keys.map((key) => (
           <Bar
@@ -303,7 +345,7 @@ export function SliderButton({
   };
 
   return (
-    <div className="flex flex-1 justify-center gap-8">
+    <div className="flex flex-1 justify-center gap-1 md:gap-3 lg:gap-8">
       <Button
         size={buttonSize}
         onClick={() => slideData("left")}

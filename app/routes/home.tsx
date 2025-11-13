@@ -1,13 +1,13 @@
 import type { Route } from "./+types/home";
-import { MainLayout } from "../ui/mainLayout";
+import { MainLayout } from "../ui/MainLayout";
 import { Card, CardContent } from "~/components/ui/card";
-import { MarkdownContent } from "~/ui/markdownContent";
-import { StatBadge, StatBadgeSkeleton } from "~/ui/statBadge";
+import { MarkdownContent } from "~/ui/MarkdownContent";
+import { StatBadge, StatBadgeSkeleton } from "~/ui/StatBadge";
 import { useEffect, useState } from "react";
 import { GetRequest } from "~/data/data";
 import config from "~/config";
 import { MapPin, Mountain, Star, TrendingUp } from "lucide-react";
-import { TypoH2 } from "~/ui/typography";
+import { TypoH2 } from "~/ui/Typography";
 import { formatNumber } from "~/data/helper";
 
 export function meta({}: Route.MetaArgs) {
@@ -46,7 +46,7 @@ export default function Home() {
         </CardContent>
       </Card>
       <TypoH2 className="mt-8">General Statistics</TypoH2>
-      <div className="grid grid-cols-2 justify-items-center gap-4 max-w-2xl mx-auto mt-8 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-4 max-w-2xl mx-auto mt-8 mb-8">
         {!isLoading ? (
           <>
             <StatBadge

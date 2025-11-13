@@ -1,11 +1,11 @@
 import type { Route } from "./+types/list";
-import { MainLayout } from "~/ui/mainLayout";
+import { MainLayout } from "~/ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
 
-import { TypoH1 } from "~/ui/typography";
-import { RegionsAccordion } from "~/ui/regionAccordion";
+import { TypoH1 } from "~/ui/Typography";
+import { RegionsAccordion } from "~/ui/RegionAccordion";
 
 export function meta({}: Route.MetaArgs) {
   return [

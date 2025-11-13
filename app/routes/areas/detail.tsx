@@ -1,13 +1,13 @@
 import type { Route } from "./+types/detail";
-import { MainLayout } from "~/ui/mainLayout";
-import { StatBadge } from "~/ui/statBadge";
+import { MainLayout } from "~/ui/MainLayout";
+import { StatBadge } from "~/ui/StatBadge";
 import { GetRequest } from "~/data/data";
-import { BoulderTable } from "~/ui/boulderTable";
+import { BoulderTable } from "~/ui/BoulderTable";
 import config from "~/config";
-import { ChartBarVertical, ChartWrapper } from "~/ui/chart";
+import { ChartBarVertical, ChartWrapper } from "~/ui/Chart";
 import { Mountain, Star, TrendingUp } from "lucide-react";
-import { TypoH1, TypoH2, TypoH3 } from "~/ui/typography";
-import { BleauInfoButton } from "~/ui/bleauInfoButton";
+import { TypoH1, TypoH2, TypoH3 } from "~/ui/Typography";
+import { BleauInfoButton } from "~/ui/BleauInfoButton";
 import { formatNumber } from "~/data/helper";
 
 export function meta({}: Route.MetaArgs) {
@@ -26,14 +26,14 @@ export default function AreasDetail({ loaderData }: Route.ComponentProps) {
   const data = loaderData;
   return (
     <MainLayout>
-      <div className="flex flex-col mb-4">
-        <div className="flex flex-row justify-between align-items-center">
+      <div className="flex flex-col md:flex-row gap-6 justify-between items-start mb-4">
+        <div className="flex flex-col">
           <TypoH1 className="mb-2">
             {data.area.status ? `${data.area.name} (${data.area.status})` : `${data.area.name}`}
           </TypoH1>
-          <BleauInfoButton link={data.area.url} />
+          <TypoH3 className="text-muted-foreground">{data.area.region.name}</TypoH3>
         </div>
-        <TypoH3 className="text-muted-foreground">{data.area.region.name}</TypoH3>
+        <BleauInfoButton link={data.area.url} />
       </div>
       {data.number_of_boulders > 0 ? (
         <AreaStatistics data={data} />
@@ -56,7 +56,7 @@ function AreaStatistics({ data }: { data: Record<string, any> }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 justify-items-center gap-15 max-w-2xl mx-auto mt-8 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center gap-6 md:gap-15 my-8">
         <StatBadge
           Icon={Mountain}
           content="Boulders"
@@ -71,7 +71,23 @@ function AreaStatistics({ data }: { data: Record<string, any> }) {
         chartConfig={areaChartConfig}
         dataKeyX="grade.value"
         title="Grade distribution"
-        tickAngle={-45}
+        ticksMobile={[
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6a",
+          "6b",
+          "6c",
+          "7a",
+          "7b",
+          "7c",
+          "8a",
+          "8b",
+          "8c",
+          "9a",
+        ]}
       />
       <div className="my-8">
         <TypoH2>Boulders with most ascents</TypoH2>
