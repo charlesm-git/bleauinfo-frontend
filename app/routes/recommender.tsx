@@ -116,15 +116,15 @@ export default function Recommender() {
 
   return (
     <MainLayout>
-      <div className="flex gap-5 items-end justify-center mb-6">
+      <div className="flex gap-5 items-end justify-center mb-2 md:mb-6">
         {/* Title*/}
         <TypoH1 className="mb-0">Boulder recommender</TypoH1>
       </div>
       {/* Description Accordion */}
-      <Accordion type="single" collapsible className="mb-5">
+      <Accordion type="single" collapsible className="mb-2 md:mb-5">
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            <TypoH2 className="mb-0 text-lg border-none">How it works?</TypoH2>
+            <TypoH2 className="mb-0 text-sm md:text-lg border-none">How it works?</TypoH2>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance w-full">
             <MarkdownContent contentKey="recommender" />
@@ -132,7 +132,9 @@ export default function Recommender() {
         </AccordionItem>
       </Accordion>
       {/* Command window for climb search and selection */}
-      <Command className="rounded-lg border shadow-md md:min-w-[450px] p-5" shouldFilter={false}>
+      <Command
+        className="rounded-lg border shadow-md md:min-w-[450px] p-2 md:p-5"
+        shouldFilter={false}>
         <div className="flex flex-row justify-between">
           <CommandInput
             placeholder="Search for boulders"
@@ -177,11 +179,18 @@ export default function Recommender() {
           ))}
         </div>
       )}
-      <div className="flex justify-center my-5 gap-10">
-        <Button size="lg" className="" onClick={getRecommendations}>
+      <div className="flex justify-center my-5 gap-2 md:gap-10">
+        <Button
+          size="sm"
+          className="text-xs md:h-10 md:px-6 md:text-base"
+          onClick={getRecommendations}>
           Recommend
         </Button>
-        <Button variant="destructive" size="lg" onClick={clearAll}>
+        <Button
+          variant="destructive"
+          size="sm"
+          className="text-xs md:h-10 md:px-6 md:text-base"
+          onClick={clearAll}>
           Reset
         </Button>
       </div>

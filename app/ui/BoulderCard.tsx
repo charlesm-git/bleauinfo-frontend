@@ -27,14 +27,14 @@ export function BoulderCard({
 }: BoulderItemProps) {
   return (
     <Card className="flex-1 hover:shadow-lg transition-shadow relative h-full">
-      <CardContent className="">
+      <CardContent>
         {/* Single column vertical layout */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1 md:gap-3">
           {/* Name + Area */}
           <div className="flex gap-2 justify-between">
             <div className="flex-1">
-              <TypoH3 className="font-semibold text-lg mb-0">{boulder.name}</TypoH3>
-              <p className="text-sm text-muted-foreground">{boulder.area.name}</p>
+              <TypoH3 className="font-semibold text-xs md:text-lg mb-0">{boulder.name}</TypoH3>
+              <p className="text-[10px] md:text-sm text-muted-foreground">{boulder.area.name}</p>
             </div>
             <div>
               <DropdownMenu>
@@ -77,13 +77,13 @@ export function BoulderCard({
           {/* Grade + Ascents inline */}
           <div className="flex items-center gap-3">
             {boulder.grade && (
-              <Badge variant="secondary" className="text-sm">
+              <Badge variant="secondary" className="text-[10px] md:text-sm">
                 {boulder.grade.value}
                 {boulder.slash_grade ? `/${boulder.slash_grade.value}` : ""}
               </Badge>
             )}
             {boulder.ascents !== null && (
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1 text-[10px] md:text-sm text-muted-foreground">
                 <TrendingUp className="h-4 w-4" />
                 <span>{boulder.ascents} ascents</span>
               </div>
@@ -97,7 +97,7 @@ export function BoulderCard({
           {boulder.styles && boulder.styles.length > 0 && (
             <div className="flex gap-1 flex-wrap">
               {boulder.styles.map((style: Record<string, any>) => (
-                <Badge key={style.id} variant="outline">
+                <Badge key={style.id} variant="outline" className="text-[9px] md:text-xs">
                   {style.style}
                 </Badge>
               ))}

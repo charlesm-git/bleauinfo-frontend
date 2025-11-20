@@ -218,7 +218,7 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
 
           {/* Thumb */}
           <div
-            className="absolute w-4 h-4 bg-primary rounded-full cursor-grab active:cursor-grabbing shadow-lg transition-all duration-300"
+            className="absolute w-4 h-4 bg-primary rounded-full cursor-grab active:cursor-grabbing shadow-lg transition-all duration-300 z-100"
             style={{ left: "50%", top: `${thumbPosition}%`, transform: "translate(-50%, -50%)" }}
             onMouseDown={handleDragStart}
           />
@@ -266,7 +266,7 @@ export function GradeNavigationWrapper({ grades }: { grades: Grade[] }) {
           side="right"
           className="w-auto bg-primary/10 border-none shadow-none p-0 flex items-end justify-end pointer-events-none"
           overlayClassName="bg-transparent">
-          <div className="pointer-events-auto mb-12 mr-4">
+          <div className="pointer-events-auto mb-8 mr-4 ml-4">
             <GradeNavigationSlider grades={grades} />
           </div>
         </SheetContent>

@@ -2,7 +2,7 @@ export function StarRating({ rating }: { rating: number }) {
   const percentage = (rating / 5) * 100;
 
   return (
-    <div className="flex items-center gap-1 max-h-5">
+    <div className="flex items-baseline gap-1">
       <div className="relative inline-block w-max">
         {/* Background: empty stars */}
         <div title={`${rating} / 5`} className="text-border text-sm md:text-lg">
@@ -17,7 +17,7 @@ export function StarRating({ rating }: { rating: number }) {
           ★★★★★
         </div>
       </div>
-      <p className="text-muted-foreground text-xs md:text-sm">({rating}/5)</p>
+      <p className="text-muted-foreground text-[10px] md:text-sm">({rating}/5)</p>
     </div>
   );
 }

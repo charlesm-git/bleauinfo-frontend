@@ -10,18 +10,22 @@ export function BoulderBadge({
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   return (
-    <Badge variant="secondary" className="flex gap-4 py-1.5 px-3">
-      <div className="flex gap-2 items-end ms-2">
-        <span className="font-bold text-sm">{boulder.name}</span>
-        {!boulder.slash_grade ? (
-          <span className="italic text-xs">{boulder.grade.value}</span>
-        ) : (
-          <span className="italic">
-            {boulder.grade.value}/{boulder.slash_grade.value}
-          </span>
-        )}
+    <Badge variant="secondary" className="flex gap-1.5 md:gap-3 py-1.5 px-3 max-w-full">
+      <div className="flex flex-1 gap-2 items-end ms-2 min-w-0 text-xs md:text-sm font-bold text-wrap break-words">
+        {boulder.name}
       </div>
-      <Button variant="ghost" size="icon" className="hover:bg-background hover:text-foreground" onClick={onClick}>
+      {!boulder.slash_grade ? (
+        <span className="italic text-[10px] md:text-xs whitespace-nowrap">{boulder.grade.value}</span>
+      ) : (
+        <span className="italic text-[10px] md:text-xs whitespace-nowrap">
+          {boulder.grade.value}/{boulder.slash_grade.value}
+        </span>
+      )}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="hover:bg-background hover:text-foreground shrink-0"
+        onClick={onClick}>
         <X />
       </Button>
     </Badge>

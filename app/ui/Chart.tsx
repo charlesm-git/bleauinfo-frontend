@@ -119,7 +119,7 @@ export function ChartWrapper({
 
   return (
     <Card>
-      <CardHeader className="">
+      <CardHeader className="px-3 md:px-6">
         <CardTitle>
           <TypoH2 className="mb-0">{title}</TypoH2>
         </CardTitle>
@@ -152,7 +152,7 @@ export function ChartWrapper({
       </CardContent>
       {commentContent && (
         <CardFooter>
-          <div className="flex flex-col items-start bg-secondary flex-grow p-4 rounded rounded-md gap-2">
+          <div className="flex flex-col items-start bg-secondary flex-1 p-4 rounded rounded-md gap-2">
             <TypoH2 className="w-full">Comments</TypoH2>
             <MarkdownContent contentKey={commentContent} />
           </div>
