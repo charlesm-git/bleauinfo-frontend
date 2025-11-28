@@ -123,7 +123,7 @@ export default function Recommender() {
       {/* Description Accordion */}
       <Accordion type="single" collapsible className="mb-2 md:mb-5">
         <AccordionItem value="item-1">
-          <AccordionTrigger>
+          <AccordionTrigger className="py-1 md:py-4">
             <TypoH2 className="mb-0 text-sm md:text-lg border-none">How it works?</TypoH2>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance w-full">
@@ -141,6 +141,7 @@ export default function Recommender() {
             onValueChange={setText}
             value={text}
             wrapperClassName="flex-1"
+            className="placeholder:text-xs md:placeholder:text-base"
           />
           {text && (
             <Button variant="ghost" onClick={resetEntry}>

@@ -3,8 +3,9 @@ import { MainLayout } from "../../ui/MainLayout";
 import { GetRequest } from "~/data/data";
 import { useEffect, useState } from "react";
 import config from "~/config";
-import { ChartLine, ChartWrapper } from "~/ui/Chart";
 import { TypoH1 } from "~/ui/Typography";
+import ChartWrapper from "~/ui/chart/ChartWrapper";
+import ChartLine from "~/ui/chart/ChartLine";
 
 export function meta({}: Route.MetaArgs) {
   return [

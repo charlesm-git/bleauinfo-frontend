@@ -4,12 +4,13 @@ import { GetRequest } from "~/data/data";
 import { StatBadge } from "~/ui/StatBadge";
 import { useState } from "react";
 import config from "~/config";
-import { ChartLine, ChartWrapper } from "~/ui/Chart";
 import { Star, TrendingUp } from "lucide-react";
 import { BleauInfoButton } from "~/ui/BleauInfoButton";
 import { TypoH1, TypoH3 } from "~/ui/Typography";
 import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
+import ChartWrapper from "~/ui/chart/ChartWrapper";
+import ChartLine from "~/ui/chart/ChartLine";
 
 export function meta({}: Route.MetaArgs) {
   return [

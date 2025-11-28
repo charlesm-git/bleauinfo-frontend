@@ -4,11 +4,12 @@ import { StatBadge } from "~/ui/StatBadge";
 import { GetRequest } from "~/data/data";
 import { BoulderTable } from "~/ui/BoulderTable";
 import config from "~/config";
-import { ChartBarVertical, ChartWrapper } from "~/ui/Chart";
 import { Mountain, Star, TrendingUp } from "lucide-react";
 import { TypoH1, TypoH2, TypoH3 } from "~/ui/Typography";
 import { BleauInfoButton } from "~/ui/BleauInfoButton";
 import { formatNumber } from "~/data/helper";
+import ChartWrapper from "~/ui/chart/ChartWrapper";
+import ChartBarVertical from "~/ui/chart/ChartBarVertical";
 
 export function meta({}: Route.MetaArgs) {
   return [
