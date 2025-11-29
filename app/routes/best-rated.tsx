@@ -40,7 +40,7 @@ export default function BestRated() {
   return (
     <MainLayout className="flex gap-1 md:gap-4 lg:gap-8">
       <div className="flex flex-col flex-1">
-        <TypoH1>Best rated boulders</TypoH1>
+        <TypoH1 className="mb-4">Best rated boulders</TypoH1>
         <Card className="bg-secondary mb-8">
           <CardContent>
             <MarkdownContent contentKey="best-rated" />

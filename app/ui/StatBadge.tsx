@@ -5,20 +5,24 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 interface StatGadgeProps {
   Icon: LucideIcon;
-  content: string;
   value: string;
+  content?: string;
 }
 
-export function StatBadge({ Icon, content, value }: StatGadgeProps) {
+export function StatBadge({ Icon, value, content }: StatGadgeProps) {
   return (
-    <Badge variant="stat" className="px-6 py-4 text-base gap-2">
+    <Badge
+      variant="stat"
+      className={`px-4 py-2 md:px-6 md:py-4 text-base ${content ? "gap-2" : "gap-4"}`}>
       <Icon className="mr-3 text-primary" />
       <span>
-        <TypoP className="font-bold text-xl">{value}</TypoP>
+        <TypoP className="font-bold">{value}</TypoP>
       </span>
-      <span>
-        <TypoP className="text-sm">{content}</TypoP>
-      </span>
+      {content && (
+        <span>
+          <TypoP>{content}</TypoP>
+        </span>
+      )}
     </Badge>
   );
 }

@@ -44,11 +44,13 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
 
   return (
     <MainLayout>
-      <div className="flex flex-col md:flex-row mb-4 gap-6 justify-between items-start">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col md:flex-row mb-4 gap-3 md:gap-6 justify-between items-start">
+        <div className="flex flex-col gap-2 md:gap-4 flex-1 flex-grow">
           <div className="flex gap-8 items-center">
-            <TypoH1 className="mb-0 text-start">{boulder.name}</TypoH1>
-            <Badge variant="secondary" className="px-4 py-2 text-base bg-accent">
+            <TypoH1 className="text-start">{boulder.name}</TypoH1>
+            <Badge
+              variant="secondary"
+              className="px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base bg-accent">
               {!boulder.slash_grade
                 ? `${boulder.grade.value}`
                 : `${boulder.grade.value}/${boulder.slash_grade.value}`}
@@ -57,19 +59,21 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
           <TypoH3 className="w-fit text-muted-foreground hover:text-muted">
             <Link to={`/areas/${boulder.area.id}`}>{boulder.area.name}</Link>
           </TypoH3>
-          <div className="flex gap-4">
+          <div className="flex gap-2 md:gap-4 flex-wrap">
             {boulder.styles.map((style: Record<string, string>) => (
-              <Badge variant="outline" className="py-1 px-3 text-sm">
+              <Badge variant="outline" className="py-1 px-3 text-xs md:text-sm" key={style.id}>
                 {style.style}
               </Badge>
             ))}
           </div>
         </div>
-        <BleauInfoButton link={boulder.url} />
+        <div className="flex w-full md:w-auto justify-end">
+          <BleauInfoButton link={boulder.url} />
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-15 max-w-2xl mx-auto my-8 justify-items-center">
+      <div className="grid grid-cols-2 gap-2 md:gap-15 max-w-2xl mx-auto my-8 justify-items-center">
         <StatBadge Icon={TrendingUp} content="Ascents" value={boulder.ascents.length} />
-        <StatBadge Icon={Star} content="Rating" value={`${boulder.rating}/5`} />
+        <StatBadge Icon={Star} value={`${boulder.rating}/5`} />
       </div>
       <ChartWrapper
         ChartType={ChartLine}

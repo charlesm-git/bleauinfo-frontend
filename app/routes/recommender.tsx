@@ -118,7 +118,7 @@ export default function Recommender() {
     <MainLayout>
       <div className="flex gap-5 items-end justify-center mb-2 md:mb-6">
         {/* Title*/}
-        <TypoH1 className="mb-0">Boulder recommender</TypoH1>
+        <TypoH1>Boulder recommender</TypoH1>
       </div>
       {/* Description Accordion */}
       <Accordion type="single" collapsible className="mb-2 md:mb-5">

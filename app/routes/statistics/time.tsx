@@ -65,7 +65,7 @@ export default function TimeStatistics() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-1 md:gap-3">
         <TypoH1>Time Analytics</TypoH1>
         <ChartWrapper
           ChartType={ChartLine}

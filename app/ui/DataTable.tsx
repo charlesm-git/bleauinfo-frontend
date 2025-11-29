@@ -46,7 +46,7 @@ export function DataTable<TData, TValue>({
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <TableHead key={header.id} className="text-[0.65rem] sm:text-sm md:text-base">
+              <TableHead key={header.id} className="text-[0.65rem] sm:text-xs md:text-sm">
                 {header.isPlaceholder
                   ? null
                   : flexRender(header.column.columnDef.header, header.getContext())}
@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
               onClick={() => onRowClick?.(row.original)}
               className="cursor-pointer">
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className="text-[0.65rem] sm:text-sm md:text-base">
+                <TableCell key={cell.id} className="text-[0.65rem] sm:text-xs md:text-sm py-0.5">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
@@ -73,7 +73,7 @@ export function DataTable<TData, TValue>({
           <TableRow>
             <TableCell
               colSpan={columns.length}
-              className="h-24 text-center text-[0.65rem] sm:text-sm md:text-base">
+              className="h-24 text-center text-[0.65rem] sm:text-xs md:text-sm">
               No results.
             </TableCell>
           </TableRow>

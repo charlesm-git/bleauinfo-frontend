@@ -11,7 +11,7 @@ import SliderButton from "./SliderButton";
 import { GradeSelector } from "../Selector";
 import { MarkdownContent } from "../MarkdownContent";
 import { ChartWrapperProps } from "./types";
-import { useEffect, useState } from "react";
+import { useMediaQuery } from "~/lib/hook/useMediaQuery";
 
 /**
  * Chart Wrapper
@@ -49,15 +49,7 @@ export default function ChartWrapper({
   tickFormatterMobile,
   commentContent,
 }: ChartWrapperProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 430px)");
-    setIsMobile(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+  const { isMobile } = useMediaQuery();
 
   return (
     <Card>

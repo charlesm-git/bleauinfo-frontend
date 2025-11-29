@@ -85,7 +85,7 @@ export const columns: ColumnDef<BoulderItem>[] = [
     header: ({ column }) => {
       return (
         <div className="flex gap-2 items-center">
-          <span>Number of Ascents</span>
+          <span>Ascents</span>
           <Button
             variant="sorting"
             onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}>

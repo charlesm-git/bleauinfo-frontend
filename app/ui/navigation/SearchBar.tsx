@@ -23,7 +23,7 @@ export default function SearchBar() {
           ref={inputRef}
           type="text"
           placeholder="Search..."
-          className="placeholder:text-xs md:placeholder:text-sm placeholder:text-center md:placeholder:text-left placeholder:align-middle"
+          className="text-xs md:text-sm placeholder:text-xs md:placeholder:text-sm placeholder:text-center md:placeholder:text-left placeholder:align-middle"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

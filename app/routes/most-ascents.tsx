@@ -40,7 +40,7 @@ export default function MostAscents() {
   return (
     <MainLayout className="flex gap-1 md:gap-4 lg:gap-8">
       <div className="flex flex-col flex-1">
-        <TypoH1>Boulders with most ascents</TypoH1>
+        <TypoH1 className="mb-4">Boulders with most ascents</TypoH1>
         <Card className="bg-secondary">
           <CardContent>
             <MarkdownContent contentKey="most-ascents" />

@@ -49,7 +49,7 @@ export default function GradeStatistics() {
   };
 
   return (
-    <MainLayout className="flex flex-col gap-6">
+    <MainLayout className="flex flex-col gap-1 md:gap-3">
       <TypoH1>Grade Analytics</TypoH1>
       <ChartWrapper
         ChartType={ChartBarVertical}

@@ -10,7 +10,7 @@ export function TypoH1({ children, className }: TypographyProps) {
   return (
     <h1
       className={cn(
-        "scroll-m-20 text-center text-xl md:text-4xl font-extrabold tracking-tight text-balance mb-6",
+        "scroll-m-20 text-center text-xl md:text-4xl font-extrabold tracking-tight text-balance",
         className
       )}>
       {children}
