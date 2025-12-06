@@ -8,6 +8,7 @@ import { TypoH1 } from "~/ui/Typography";
 import { Card, CardContent } from "~/components/ui/card";
 import { MarkdownContent } from "~/ui/MarkdownContent";
 import { GradeNavigationWrapper } from "~/ui/GradeNavigationSlider";
+import { BoulderByGrade } from "~/types/boulder";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,12 +18,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function MostAscents() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<BoulderByGrade[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const grades = data
-    .filter((g: Record<string, any>) => g.boulders.length > 0)
-    .map((item: Record<string, any>) => ({
+    .filter((item) => item.boulders.length > 0)
+    .map((item) => ({
       id: `grade-${item.grade.value}`,
       label: item.grade.value,
     }));
@@ -30,8 +31,8 @@ export default function MostAscents() {
   useEffect(() => {
     async function load() {
       setIsLoading(true);
-      const sorted_boulders = await GetRequest(`${config.baseUrl}/stats/boulder/most-ascents`);
-      setData(sorted_boulders);
+      const sortedBoulders = await GetRequest(`${config.baseUrl}/stats/boulder/most-ascents`);
+      setData(sortedBoulders);
       setIsLoading(false);
     }
     load();
@@ -55,9 +56,9 @@ export default function MostAscents() {
         ) : (
           <>
             {data
-              .filter((grade_block: Record<string, any>) => grade_block.boulders.length !== 0)
-              .map((grade_block: Record<string, any>) => (
-                <GradeBlock key={grade_block.grade.id} data={grade_block} />
+              .filter((gradeBlock) => gradeBlock.boulders.length !== 0)
+              .map((gradeBlock) => (
+                <GradeBlock key={gradeBlock.grade.id} data={gradeBlock} />
               ))}
           </>
         )}

@@ -6,6 +6,7 @@ import config from "~/config";
 import { TypoH1 } from "~/ui/Typography";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
 import ChartLine from "~/ui/chart/ChartLine";
+import { AscentsPerMonth, AscentsPerYear } from "~/types/ascent";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,8 +16,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function TimeStatistics() {
-  const [monthlyAscentsData, setMonthAscentsData] = useState<Record<string, any>[]>([]);
-  const [yearAscentsData, setYearAscentsData] = useState<Record<string, any>[]>([]);
+  const [monthlyAscentsData, setMonthAscentsData] = useState<AscentsPerMonth[]>([]);
+  const [yearAscentsData, setYearAscentsData] = useState<AscentsPerYear[]>([]);
   const [monthGradeSelection, setMonthGradeSelection] = useState<string>();
   const [yearGradeSelection, setYearGradeSelection] = useState<string>();
 

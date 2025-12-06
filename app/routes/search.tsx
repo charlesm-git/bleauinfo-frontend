@@ -5,6 +5,8 @@ import config from "~/config";
 import { TypoH1, TypoH2 } from "~/ui/Typography.js";
 import { AreaBadge } from "~/ui/AreaBadge.js";
 import { BoulderTableSearch } from "~/ui/BoulderTableSearch.js";
+import { BoulderWithAscentCount } from "~/types/boulder.js";
+import { Area } from "~/types/area.js";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -26,7 +28,11 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Search({ loaderData }: Route.ComponentProps) {
-  const { boulders, areas, searchText } = loaderData;
+  const { boulders, areas, searchText } = loaderData as {
+    boulders: BoulderWithAscentCount[];
+    areas: Area[];
+    searchText: string;
+  };
 
   return (
     <MainLayout>
@@ -47,7 +53,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
         <div className="">
           <TypoH2 className="border-none">Areas</TypoH2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6">
-            {areas.map((area: Record<string, any>) => (
+            {areas.map((area) => (
               <AreaBadge key={area.id} area={area} />
             ))}
           </div>

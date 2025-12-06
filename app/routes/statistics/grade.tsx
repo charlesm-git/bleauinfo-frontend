@@ -6,6 +6,7 @@ import config from "~/config";
 import { TypoH1 } from "~/ui/Typography";
 import ChartBarVertical from "~/ui/chart/ChartBarVertical";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
+import { GradeAscents, GradeDistribution } from "~/types/grade";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,8 +16,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function GradeStatistics() {
-  const [gradeDistributionData, setGradeDistributionData] = useState<Record<string, any>[]>([]);
-  const [gradeAscentsData, setGradeAscentsData] = useState<Record<string, any>[]>([]);
+  const [gradeDistributionData, setGradeDistributionData] = useState<GradeDistribution[]>([]);
+  const [gradeAscentsData, setGradeAscentsData] = useState<GradeAscents[]>([]);
 
   useEffect(() => {
     async function load() {

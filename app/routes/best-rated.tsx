@@ -8,6 +8,7 @@ import { TypoH1 } from "~/ui/Typography";
 import { Card, CardContent } from "~/components/ui/card";
 import { MarkdownContent } from "~/ui/MarkdownContent";
 import { GradeNavigationWrapper } from "~/ui/GradeNavigationSlider";
+import { BoulderByGrade } from "~/types/boulder";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,12 +18,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function BestRated() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<BoulderByGrade[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const grades = data
-    .filter((g: Record<string, any>) => g.boulders.length > 0)
-    .map((item: Record<string, any>) => ({
+    .filter((item) => item.boulders.length > 0)
+    .map((item) => ({
       id: `grade-${item.grade.value}`,
       label: item.grade.value,
     }));
@@ -55,9 +56,9 @@ export default function BestRated() {
         ) : (
           <>
             {data
-              .filter((grade_block: Record<string, any>) => grade_block.boulders.length !== 0)
-              .map((grade_block: Record<string, any>) => (
-                <GradeBlock key={grade_block.grade.id} data={grade_block} />
+              .filter((block) => block.boulders.length !== 0)
+              .map((block) => (
+                <GradeBlock key={block.grade.id} data={block} />
               ))}
           </>
         )}

@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { MarkdownContent } from "~/ui/MarkdownContent";
+import { BoulderWithAscentCount } from "~/types/boulder";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,9 +30,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Recommender() {
   const [text, setText] = useState<string>("");
-  const [boulderSuggestions, setBoulderSuggestions] = useState<Record<string, any>[]>([]);
-  const [bouldersSelected, setBouldersSelected] = useState<Record<string, any>[]>([]);
-  const [recommendations, setRecommendations] = useState<Record<string, any>[]>([]);
+  const [boulderSuggestions, setBoulderSuggestions] = useState<BoulderWithAscentCount[]>([]);
+  const [bouldersSelected, setBouldersSelected] = useState<BoulderWithAscentCount[]>([]);
+  const [recommendations, setRecommendations] = useState<BoulderWithAscentCount[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState(false);
 
@@ -47,14 +48,14 @@ export default function Recommender() {
     setText("");
   };
 
-  const selectBoulder = (boulder: Record<string, any>) => {
+  const selectBoulder = (boulder: BoulderWithAscentCount) => {
     if (!bouldersSelected.includes(boulder)) {
       setBouldersSelected([...bouldersSelected, boulder]);
     }
     setText("");
   };
 
-  const unselectBoulder = (boulder: Record<string, any>) => {
+  const unselectBoulder = (boulder: BoulderWithAscentCount) => {
     setBouldersSelected(bouldersSelected.filter((item) => item !== boulder));
   };
 
@@ -150,7 +151,7 @@ export default function Recommender() {
           )}
         </div>
         <CommandList>
-          {boulderSuggestions.map((boulder: Record<string, any>) => (
+          {boulderSuggestions.map((boulder) => (
             <CommandItem
               key={boulder.id}
               className="mx-2 my-1 flex flex-row  mt-2 cursor-pointer"

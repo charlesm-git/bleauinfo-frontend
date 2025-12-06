@@ -11,13 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
-import { Dispatch, SetStateAction } from "react";
 import { Skeleton } from "~/components/ui/skeleton";
+import { BoulderWithAscentCount } from "~/types/boulder";
+import { Style } from "~/types/style";
 
 interface BoulderItemProps {
-  boulder: Record<string, any>;
+  boulder: BoulderWithAscentCount;
   showAddToSelection?: boolean;
-  onAddToSelection?: Dispatch<SetStateAction<Record<string, any>>>;
+  onAddToSelection?: (boulder: BoulderWithAscentCount) => void;
 }
 
 export function BoulderCard({
@@ -91,12 +92,12 @@ export function BoulderCard({
           </div>
 
           {/* Rating */}
-          <StarRating rating={boulder.rating} />
+          <StarRating rating={boulder.rating ?? 0} />
 
           {/* Styles */}
           {boulder.styles && boulder.styles.length > 0 && (
             <div className="flex gap-1 flex-wrap">
-              {boulder.styles.map((style: Record<string, any>) => (
+              {boulder.styles.map((style: Style) => (
                 <Badge key={style.id} variant="outline" className="text-[9px] md:text-xs">
                   {style.style}
                 </Badge>

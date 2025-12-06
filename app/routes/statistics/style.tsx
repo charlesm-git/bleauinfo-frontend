@@ -6,6 +6,7 @@ import config from "~/config";
 import { TypoH1 } from "~/ui/Typography";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
 import ChartBarVertical from "~/ui/chart/ChartBarVertical";
+import { StyleDistribution } from "~/types/style";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,7 +16,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function StyleStatistics() {
-  const [styleData, setStyleData] = useState<Record<string, any>[]>([]);
+  const [styleData, setStyleData] = useState<StyleDistribution[]>([]);
 
   useEffect(() => {
     async function load() {

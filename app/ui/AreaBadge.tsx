@@ -1,6 +1,7 @@
 import { ChevronRight, MapPin } from "lucide-react";
+import { Area } from "~/types/area";
 
-export function AreaBadge({ area }: { area: Record<string, any> }) {
+export function AreaBadge({ area }: { area: Area }) {
   return (
     <a
       key={area.id}

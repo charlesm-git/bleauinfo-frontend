@@ -3,13 +3,13 @@ import { Badge } from "~/components/ui/badge";
 import { TypoP } from "./Typography";
 import { Skeleton } from "~/components/ui/skeleton";
 
-interface StatGadgeProps {
+interface StatBadgeProps {
   Icon: LucideIcon;
   value: string;
   content?: string;
 }
 
-export function StatBadge({ Icon, value, content }: StatGadgeProps) {
+export function StatBadge({ Icon, value, content }: StatBadgeProps) {
   return (
     <Badge
       variant="stat"

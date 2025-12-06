@@ -4,8 +4,9 @@ import { useNavigate } from "react-router";
 import { DataTable } from "./DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMediaQuery } from "~/lib/hook/useMediaQuery";
+import { BoulderWithAscentCount } from "~/types/boulder";
 
-export function BoulderTableSearch({ boulders }: { boulders: BoulderItem[] }) {
+export function BoulderTableSearch({ boulders }: { boulders: BoulderWithAscentCount[] }) {
   const navigate = useNavigate();
   return (
     <DataTable
@@ -16,16 +17,7 @@ export function BoulderTableSearch({ boulders }: { boulders: BoulderItem[] }) {
   );
 }
 
-type BoulderItem = {
-  id: string;
-  name: string;
-  grade: { value: string };
-  area: { name: string };
-  slash_grade?: { value: string };
-  rating: number;
-};
-
-export const columns: ColumnDef<BoulderItem>[] = [
+export const columns: ColumnDef<BoulderWithAscentCount>[] = [
   {
     accessorKey: "name",
     size: 300,

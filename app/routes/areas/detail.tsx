@@ -10,6 +10,7 @@ import { BleauInfoButton } from "~/ui/BleauInfoButton";
 import { formatNumber } from "~/data/helper";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
 import ChartBarVertical from "~/ui/chart/ChartBarVertical";
+import { AreaStats } from "~/types/area";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,7 +25,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function AreasDetail({ loaderData }: Route.ComponentProps) {
-  const data = loaderData;
+  const data = loaderData as AreaStats;
   return (
     <MainLayout>
       <div className="flex flex-col md:flex-row gap-6 justify-between items-start mb-4">
@@ -49,7 +50,7 @@ export default function AreasDetail({ loaderData }: Route.ComponentProps) {
   );
 }
 
-function AreaStatistics({ data }: { data: Record<string, any> }) {
+function AreaStatistics({ data }: { data: AreaStats }) {
   const areaChartConfig = {
     boulders: {
       label: "Boulders",
@@ -66,9 +67,11 @@ function AreaStatistics({ data }: { data: Record<string, any> }) {
           value={formatNumber(data.number_of_boulders)}
         />
         <StatBadge Icon={TrendingUp} content="Ascents" value={formatNumber(data.ascents)} />
-        <div className="col-span-2 md:col-span-1">
-          <StatBadge Icon={Star} content="Avg Grade" value={data.average_grade.value} />
-        </div>
+        {data.average_grade && (
+          <div className="col-span-2 md:col-span-1">
+            <StatBadge Icon={Star} content="Avg Grade" value={data.average_grade.value} />
+          </div>
+        )}
       </div>
       <ChartWrapper
         ChartType={ChartBarVertical}

@@ -6,6 +6,7 @@ import config from "~/config";
 import { TypoH1 } from "~/ui/Typography";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
 import ChartBarVertical from "~/ui/chart/ChartBarVertical";
+import { AreaCount } from "~/types/area";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,8 +16,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function AreaStatistics() {
-  const [areaAscentsData, setAreaAscentsData] = useState<Record<string, any>[]>([]);
-  const [areaBouldersData, setAreaBouldersData] = useState<Record<string, any>[]>([]);
+  const [areaAscentsData, setAreaAscentsData] = useState<AreaCount[]>([]);
+  const [areaBouldersData, setAreaBouldersData] = useState<AreaCount[]>([]);
 
   useEffect(() => {
     async function load() {

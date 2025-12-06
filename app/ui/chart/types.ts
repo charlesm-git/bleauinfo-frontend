@@ -1,9 +1,23 @@
+import { SetStateAction } from "react";
 import { ChartConfig } from "~/components/ui/chart";
 import { ContentKey } from "~/content";
+import { AreaCount } from "~/types/area";
+import { AscentsPerMonth, AscentsPerMonthWithGeneral, AscentsPerYear } from "~/types/ascent";
+import { GradeAscents, GradeDistribution } from "~/types/grade";
+import { StyleDistribution } from "~/types/style";
+
+type ChartData =
+  | GradeDistribution[]
+  | GradeAscents[]
+  | AscentsPerMonthWithGeneral[]
+  | AscentsPerMonth[]
+  | AscentsPerYear[]
+  | AreaCount[]
+  | StyleDistribution[];
 
 export interface ChartWrapperProps {
   ChartType: React.ComponentType<ChartProps>;
-  chartData: Record<string, any>[];
+  chartData: ChartData;
   chartConfig: ChartConfig;
   dataKeyX: string;
   title: string;
@@ -19,14 +33,16 @@ export interface ChartWrapperProps {
   description?: string;
   enableSliding?: boolean;
   enableGradeSelection?: boolean;
-  chartSetData?: (newData: Record<string, any>[]) => void;
+  chartSetData?:
+    | React.Dispatch<SetStateAction<AscentsPerMonthWithGeneral[]>>
+    | React.Dispatch<SetStateAction<AscentsPerMonth[]>>;
   setGradeSelection?: (newData: string) => void;
   tickFormatterMobile?: (value: any) => string;
   commentContent?: ContentKey;
 }
 
 export interface ChartProps {
-  chartData: Record<string, any>[];
+  chartData: ChartData;
   chartConfig: ChartConfig;
   dataKeyX: string;
   margin: Record<string, number>;

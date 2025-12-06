@@ -11,6 +11,7 @@ import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
 import ChartWrapper from "~/ui/chart/ChartWrapper";
 import ChartLine from "~/ui/chart/ChartLine";
+import { BoulderWithFullDetail } from "~/types/boulder";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,7 +30,7 @@ export async function loader({ params }: { params: BoulderParams }) {
 }
 
 export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
-  const boulder = loaderData;
+  const boulder = loaderData as BoulderWithFullDetail;
   const [chartData, setChartData] = useState(boulder.aggregated_ascents);
   const chartConfig = {
     boulder: {
@@ -60,7 +61,7 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
             <Link to={`/areas/${boulder.area.id}`}>{boulder.area.name}</Link>
           </TypoH3>
           <div className="flex gap-2 md:gap-4 flex-wrap">
-            {boulder.styles.map((style: Record<string, string>) => (
+            {boulder.styles.map((style) => (
               <Badge variant="outline" className="py-1 px-3 text-xs md:text-sm" key={style.id}>
                 {style.style}
               </Badge>
@@ -72,7 +73,7 @@ export default function BouldersDetail({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 md:gap-15 max-w-2xl mx-auto my-8 justify-items-center">
-        <StatBadge Icon={TrendingUp} content="Ascents" value={boulder.ascents.length} />
+        <StatBadge Icon={TrendingUp} content="Ascents" value={boulder.ascents.length.toString()} />
         <StatBadge Icon={Star} value={`${boulder.rating}/5`} />
       </div>
       <ChartWrapper
