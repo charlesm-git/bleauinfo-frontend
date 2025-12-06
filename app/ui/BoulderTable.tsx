@@ -3,31 +3,20 @@ import { ArrowUpDown } from "lucide-react";
 import { useNavigate } from "react-router";
 import { DataTable } from "./DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import { useMediaQuery } from "~/lib/hook/useMediaQuery";
+import { BoulderWithAscentCount } from "~/types/boulder";
 
-export function BoulderTable({ items }: { items: BoulderItem[] }) {
+export function BoulderTable({ items }: { items: BoulderWithAscentCount[] }) {
   const navigate = useNavigate();
   return (
     <DataTable
       columns={columns}
       data={items}
-      onRowClick={(item) => navigate(`/boulders/${item.boulder.id}`)}
+      onRowClick={(item) => item.id && navigate(`/boulders/${item.id}`)}
     />
   );
 }
 
-type BoulderItem = {
-  boulder: {
-    id: string;
-    name: string;
-    grade: { value: string };
-    slash_grade?: { value: string };
-    rating: number;
-  };
-  ascents: number;
-};
-
-export const columns: ColumnDef<BoulderItem>[] = [
+export const columns: ColumnDef<BoulderWithAscentCount>[] = [
   {
     accessorKey: "boulder.name",
     header: ({ column }) => {
@@ -44,17 +33,20 @@ export const columns: ColumnDef<BoulderItem>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="whitespace-normal break-normal font-semibold">{row.original.boulder.name}</div>;
+      return (
+        <div className="whitespace-normal break-normal font-semibold">
+          {row.original.name || "N/A"}
+        </div>
+      );
     },
   },
   {
     id: "grade",
-    accessorFn: (row) => row.boulder.grade.value,
+    accessorFn: (row) => row.grade.value,
     header: ({ column }) => {
-      const { isMobile } = useMediaQuery();
       return (
-        <div className={`flex gap-1 md:gap-2 items-center ${isMobile && 'justify-center'}`}>
-          {!isMobile && <span>Grade</span>}
+        <div className="flex gap-1 md:gap-2 items-center md:justify-start justify-center">
+          <span className="hidden md:inline">Grade</span>
           <Button
             variant="sorting"
             onClick={() => column.toggleSorting(column.getIsSorted() !== "desc")}
@@ -65,11 +57,11 @@ export const columns: ColumnDef<BoulderItem>[] = [
       );
     },
     cell: ({ row }) => {
-      const { grade, slash_grade } = row.original.boulder;
-      const { isMobile } = useMediaQuery();
+      const grade = row.original.grade;
+      const slash_grade = row.original.slash_grade;
       return (
-        <div className={`italic ${isMobile && 'text-center'}`}>
-          {slash_grade ? `${grade.value} / ${slash_grade.value}` : grade.value}
+        <div className="italic text-center md:text-left">
+          {grade && slash_grade ? `${grade.value} / ${slash_grade.value}` : grade?.value || "N/A"}
         </div>
       );
     },
@@ -90,7 +82,7 @@ export const columns: ColumnDef<BoulderItem>[] = [
       );
     },
     cell: ({ row }) =>
-      row.original.boulder.rating ? `${row.original.boulder.rating} / 5` : "Not rated",
+      row.original.rating ? `${row.original.rating} / 5` : "Not rated",
   },
   {
     accessorKey: "ascents",
