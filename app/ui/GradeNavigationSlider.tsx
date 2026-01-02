@@ -12,10 +12,7 @@ interface GradeNavigationSliderProps {
   className?: string;
 }
 
-export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
-  grades,
-  className = "z-100",
-}) => {
+export function GradeNavigationSlider({ grades, className = "z-100" }: GradeNavigationSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -239,7 +236,7 @@ export const GradeNavigationSlider: React.FC<GradeNavigationSliderProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export function GradeNavigationWrapper({ grades }: { grades: Grade[] }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
